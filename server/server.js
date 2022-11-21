@@ -1,9 +1,14 @@
 const express = require("express");
 const app = express();
-const PORT = process.env.PORT || 3000;
+const cors = require("cors")
+const PORT = process.env.PORT || 5000;
 
+
+app.use(cors())
 app.get("/", (req, res) => {
-  res.send("what up what up bing chilling");
+  res.send({
+    message: "what up what up"
+  })
 });
 
 app.listen(PORT, () => {
