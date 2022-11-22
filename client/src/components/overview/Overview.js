@@ -1,20 +1,21 @@
-import React, {useState} from 'react'
+import styles from "./styles.modules.css";
 
-function Overview(){
-const [connection, setConnection] = useState('')
-const [connected, setConnected] = useState(false)
-const displayInfo = () => {
-    fetch('http://localhost:5000', { method: 'GET' })
-      .then(response => response.json())
-      .then(data => setConnection((data.message), setConnected(true)))
-      .catch(error => console.log(error)) 
-  }
+const Overview = () => {
+	const handleLogout = () => {
+		localStorage.removeItem("token");
+		window.location.reload();
+	};
 
-return(
-    <div className="overview">
-        <button onClick={displayInfo}>API Connection</button>
-        <h1>{connected ? connection : 'Awaiting Request'}</h1>
-    </div>
-)
-}
+	return (
+		<div className={styles.main_container}>
+			<nav className={styles.navbar}>
+				<h1>fakebook</h1>
+				<button className={styles.white_btn} onClick={handleLogout}>
+					Logout
+				</button>
+			</nav>
+		</div>
+	);
+};
+
 export default Overview;

@@ -1,16 +1,27 @@
-const express = require("express");
+require('dotenv').config();
+const express = require('express');
 const app = express();
-const cors = require("cors")
+const cors = require('cors');
+const mongoose = require('mongoose')
+
+app.use(express.json());
+app.use(cors());
+
+mongoose.connect("mongodb+srv://lab4:3316@cluster0.jkxlyny.mongodb.net",{useNewUrlParser:true})
+const db = mongoose.connection
+db.on('error',(error=>{
+    console.error(error)
+}))
+db.once('open',()=> console.log('Connected to Database'))
+
+const registerRoute = require('./routes/users')
+app.use('/register',registerRoute)
+
+const authRoute = require('./routes/auth')
+app.use('/auth',authRoute)
+
+
+
+
 const PORT = process.env.PORT || 5000;
-
-
-app.use(cors())
-app.get("/", (req, res) => {
-  res.send({
-    message: "what up what up"
-  })
-});
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+app.listen(PORT,() => console.log(`Listening on port ${PORT}`))
