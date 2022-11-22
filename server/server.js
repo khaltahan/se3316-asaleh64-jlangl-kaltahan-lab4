@@ -14,11 +14,11 @@ db.on('error',(error=>{
 }))
 db.once('open',()=> console.log('Connected to Database'))
 
-const registerRoute = require('./routes/users')
+const registerRoute = require('./routes/register')
 app.use('/register',registerRoute)
 
-const authRoute = require('./routes/auth')
-app.use('/auth',authRoute)
+const loginRoute = require('./routes/login')
+app.use('/login',loginRoute)
 
 
 
