@@ -19,14 +19,13 @@ const Signup = ()=>{
 const handleSubmit = async (e) =>{
     e.preventDefault()
     try {
-        const url = "http://localhost:5000/register"
+        const url = `http://localhost:${process.env.REACT_APP_API_PORT}/register`
         const {data: res} = await axios.post(url, data);
         navigate('/login')
         console.log(res.message);
     }
     catch(err){
-        if(err.response && err.response.status >= 400 
-            && err.response.status <500){
+        if(err.response.status === 409){
                 setError(err.response.data.message)
             }
             else{
