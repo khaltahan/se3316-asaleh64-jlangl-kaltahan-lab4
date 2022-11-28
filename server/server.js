@@ -14,14 +14,14 @@ db.on('error',(error=>{
 }))
 db.once('open',()=> console.log('Connected to Database'))
 
-const registerRoute = require('./routes/register')
+const changePassRoute = require('./routes/changepass.route')
+app.use('/account/change-password',changePassRoute)
+
+const registerRoute = require('./routes/register.route')
 app.use('/register',registerRoute)
 
-const loginRoute = require('./routes/login')
+const loginRoute = require('./routes/login.route')
 app.use('/login',loginRoute)
 
-
-
-
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 app.listen(PORT,() => console.log(`Listening on port ${PORT}`))

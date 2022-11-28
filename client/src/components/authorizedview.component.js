@@ -1,11 +1,11 @@
-import styles from "./styles.modules.css";
+import styles from "../styles/authorizedview.modules.css";
+import { Link } from 'react-router-dom'; 
 
 const Overview = () => {
 	const handleLogout = () => {
 		localStorage.removeItem("token");
 		window.location.reload();
 	};
-
 	return (
 		<div className={styles.main_container}>
 			<nav className={styles.navbar}>
@@ -13,6 +13,7 @@ const Overview = () => {
 				<button className={styles.white_btn} onClick={handleLogout}>
 					Logout
 				</button>
+				<Link to = '/account/change-password'> Change Password </Link>
 			</nav>
 		</div>
 	);

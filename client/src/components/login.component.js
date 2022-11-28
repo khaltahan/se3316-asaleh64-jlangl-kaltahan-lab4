@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import styles from "./styles.module.css";
+import styles from "../styles/login.modules.css";
 
 const Login = () => {
 	const [data, setData] = useState({ email: "", password: "" });
@@ -14,7 +14,7 @@ const Login = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const url = "http://localhost:5000/login";
+			const url = `http://localhost:${process.env.REACT_APP_API_PORT}/login`;
 			const { data: res } = await axios.post(url, data);
 			localStorage.setItem("token", res.data);
 			window.location = "/";

@@ -1,7 +1,8 @@
 import { Route, Routes, Navigate} from 'react-router-dom'
-import Overview from './components/Overview/overview';
-import Login from './components/Login/login';
-import Signup from './components/Signup/signup';
+import Overview from './components/authorizedview.component';
+import Login from './components/login.component';
+import Signup from './components/signup.component';
+import ChangePassword from './components/passwordchange.component';
 
 function App() {
   const user = localStorage.getItem("token");
@@ -11,6 +12,7 @@ function App() {
       <Route path = '/signup' exact element = {<Signup/>}/>
       <Route path = '/login' exact element = {<Login/>}/>
       <Route path = '/' exact element = {<Navigate replace to='/login'/>}/>
+      {user && <Route path = '/account/change-password' exact element = { <ChangePassword user = {user}/>} /> }
     </Routes>
   );
 }
