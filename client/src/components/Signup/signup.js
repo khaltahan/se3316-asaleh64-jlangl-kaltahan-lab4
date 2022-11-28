@@ -26,8 +26,11 @@ const handleSubmit = async (e) =>{
     }
     catch(err){
         if(err.response && err.response.status >= 400 
-            && err.response.status <=500){
+            && err.response.status <500){
                 setError(err.response.data.message)
+            }
+            else{
+                setError("Password must include a special character, number, uppercase letter and contain 8 or more characters")
             }
     }
 }
