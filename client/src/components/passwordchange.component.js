@@ -39,16 +39,17 @@ const ChangePassword = ({ userEmail }) => {
         }
     }
     return(
-        <div>
-            <form onSubmit={handleSubmit}>
+        <div className = {styles.container}>
+            <form className = {styles.form_container} onSubmit={handleSubmit}>
                 <h1>Change Password</h1>
                 <input 
                     type = "password" 
-                    placeholder = "Current Password"
+                    placeholder = "Old Password"
                     name = "currentPass"
                     onChange = {handleChange}
                     value = {userData.currentPass}
                     required 
+                    className = {styles.input}
                 />
                 <input 
                     type = "text" 
@@ -57,6 +58,7 @@ const ChangePassword = ({ userEmail }) => {
                     onChange = {handleChange}
                     value = {userData.newPass}
                     required 
+                    className = {styles.input}
                 />
                 <input 
                     type = "text" 
@@ -65,10 +67,16 @@ const ChangePassword = ({ userEmail }) => {
                     onChange = {handleChange}
                     value = {userData.confirmPass}
                     required 
+                    className = {styles.input}
                 />
-                <input type="submit" value="Change Password"/>
-            </form>
-            {error && <div>{error}</div>}
+                {error && 
+                <div className = {styles.error_msg}> 
+                    <p>{error}</p> 
+                </div>} 
+                <div> 
+                    <input className = {styles.green_btn} type="submit" value="Change Password"/>      
+                </div>
+                </form>
         </div>
     );
 }

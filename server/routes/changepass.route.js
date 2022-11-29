@@ -42,8 +42,10 @@ router.post('/', async (req,res) => {
                     else{
                         // check that valid password is of valid complexity 
                         if (passwordComplexity().validate(req.body.newPass).error !== undefined){
+                            let msg = passwordComplexity().validate(req.body.newPass).error.message.replace(/['"]+/g,'')
+                            msg = msg.replace(new RegExp('value', 'g'), 'Password')
                             return res.status(400).send({
-                                message:`Password ${passwordComplexity().validate(req.body.newPass).error.message.substr(7)} `
+                                message:msg
                             })
                         }
                         else{
