@@ -47,6 +47,7 @@ button{
    display: flex;
    justify-content: center; 
    column-gap:5vw;
+   margin:3vh;;
 }
 button:hover{
     background-color: rgb(236, 225, 204);

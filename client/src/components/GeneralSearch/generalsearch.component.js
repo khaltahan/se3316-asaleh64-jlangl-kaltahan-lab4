@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; 
 import styles from '../../styles/generalsearch.module.css';
+import navbarStyles from '../../styles/authorizedview.module.css';
 import DisplaySearch from './displaysearch.component';
 
 const General = () => {
@@ -8,7 +9,7 @@ const General = () => {
 	return (
 		<div>
                 
-            <div class = {styles.admin}>
+            <div class = {navbarStyles.navbar}>
                 <h1>
                     General Search
                 </h1>
