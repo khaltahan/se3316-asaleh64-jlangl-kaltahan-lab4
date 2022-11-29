@@ -17,6 +17,7 @@ const Login = () => {
 			const url = `http://localhost:${process.env.REACT_APP_API_PORT}/login`;
 			const { data: res } = await axios.post(url, data);
 			localStorage.setItem("token", res.data);
+			localStorage.setItem("userEmail", `${data.email}`)
 			window.location = "/";
 		} catch (error) {
 			if (
