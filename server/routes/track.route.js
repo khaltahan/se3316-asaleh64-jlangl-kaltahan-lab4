@@ -5,7 +5,7 @@ const cors = require('cors');
 let bodyParser = require('body-parser');
 let multer = require('multer');
 let csv = require('csvtojson');
-const Track =  require('../models/track_model.js');
+const Track =  require('../models/track.model.js');
 
 let upload =  multer({dest: 'uploads'})
 
@@ -30,16 +30,21 @@ router.post('/', upload.single('file'),async (req, res)=>{
     .then(obj=>{
         try{
         obj.forEach(async item =>{
-            const Artists = new Artist({
-            artist_id: item.artist_id,
-            artist_image_file: item.artist_image_file,
-            artist_name : item.artist_name,
-            artist_location: item.artist_location,
-            artist_active_year_begin: item.artist_active_year_begin,
-            artist_members: item.artist_members,
-            artist_website: item.artist_website,
-        });
-        Artists.save()
+            const Tracks = new Track({
+                track_id:item.track_id,
+                album_id:item.album_id,
+                album_title:item.album_title,
+                artist_id:item.artist_id,
+                artist_name:item.artist_name,
+                tags:item.tags,
+                track_date_created:item.track_date_created,
+                track_date_recorded:item.track_date_recorded,
+                track_duration:item.track_duration,
+                track_genres:item.track_genres,
+                track_number:item.track_number,
+                track_title:item.track_title,
+                });
+                Tracks.save()
         })
         res.json({message:'Succesfully Uploaded'})
     }
