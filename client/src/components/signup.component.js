@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import styles from '../styles/signup.modules.css';
+import styles from '../styles/signup.module.css';
 import {Link, useNavigate} from 'react-router-dom'
 import axios from 'axios'
 

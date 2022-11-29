@@ -1,4 +1,4 @@
-import styles from "../styles/authorizedview.modules.css";
+import styles from "../styles/authorizedview.module.css";
 import { Link } from 'react-router-dom'; 
 
 const Overview = () => {
