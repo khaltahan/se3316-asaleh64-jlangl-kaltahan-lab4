@@ -23,5 +23,8 @@ app.use('/register',registerRoute)
 const loginRoute = require('./routes/login.route')
 app.use('/login',loginRoute)
 
+const trackRoute = require('./routes/track.route')
+app.use('/data/tracks',trackRoute)
+
 const PORT = process.env.PORT;
 app.listen(PORT,() => console.log(`Listening on port ${PORT}`))

@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import styles from '../styles/signup.modules.css';
+import styles from '../styles/signup.module.css';
 import {Link, useNavigate} from 'react-router-dom'
 import axios from 'axios'
 
@@ -41,6 +41,11 @@ const handleSubmit = async (e) =>{
                     <Link to= "/login">
                         <button type = 'button' className={styles.white_btn}>Login</button>
                     </Link>
+                    <Link to = '/general'>
+					<button className={styles.white_btn}>
+							Back to Home Page
+					</button>
+					</Link>
                 </div>
                 <div className={styles.right}>
                     <form className={styles.form_container} onSubmit={handleSubmit}>

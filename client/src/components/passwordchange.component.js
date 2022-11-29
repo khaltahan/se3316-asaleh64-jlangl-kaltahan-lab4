@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import styles from "../styles/passwordchange.modules.css";
+import styles from "../styles/passwordchange.module.css";
 // redirect 
 import  { Redirect } from 'react-router-dom'
 // component 

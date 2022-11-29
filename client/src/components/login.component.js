@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import styles from "../styles/login.modules.css";
+import styles from "../styles/login.module.css";
 
 const Login = () => {
 	const [data, setData] = useState({ email: "", password: "" });
@@ -65,6 +65,11 @@ const Login = () => {
 						<button type="button" className={styles.white_btn}>
 							Sign Up
 						</button>
+					</Link>
+					<Link to = '/general'>
+					<button className={styles.white_btn}>
+							Back to Home Page
+					</button>
 					</Link>
 				</div>
 			</div>
