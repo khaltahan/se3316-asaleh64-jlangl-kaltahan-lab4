@@ -41,6 +41,11 @@ const handleSubmit = async (e) =>{
                     <Link to= "/login">
                         <button type = 'button' className={styles.white_btn}>Login</button>
                     </Link>
+                    <Link to = '/general'>
+					<button className={styles.white_btn}>
+							Back to Home Page
+					</button>
+					</Link>
                 </div>
                 <div className={styles.right}>
                     <form className={styles.form_container} onSubmit={handleSubmit}>

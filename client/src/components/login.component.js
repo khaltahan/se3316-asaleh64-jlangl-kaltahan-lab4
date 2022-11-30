@@ -67,6 +67,11 @@ const Login = () => {
 							Sign Up
 						</button>
 					</Link>
+					<Link to = '/general'>
+					<button className={styles.white_btn}>
+							Back to Home Page
+					</button>
+					</Link>
 				</div>
 			</div>
 		</div>
