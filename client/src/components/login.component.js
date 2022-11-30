@@ -4,20 +4,28 @@ import { Link } from "react-router-dom";
 import styles from "../styles/login.module.css";
 
 const Login = () => {
+	// state/context variables
 	const [data, setData] = useState({ email: "", password: "" });
 	const [error, setError] = useState("");
 
+	// event handler set state using user input field data 
 	const handleChange = ({ currentTarget: input }) => {
 		setData({ ...data, [input.name]: input.value });
 	};
 
+	// event handler to request API when form is submitted 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		// fetch the API request 
 		try {
 			const url = `http://localhost:${process.env.REACT_APP_API_PORT}/login`;
 			const { data: res } = await axios.post(url, data);
+			// store token for access in payload 
 			localStorage.setItem("token", res.data);
+			// store user email for authentication reference 
 			localStorage.setItem("userEmail", `${data.email}`)
+
+			// redirect user to landing page 
 			window.location = "/";
 		} catch (error) {
 			if (
