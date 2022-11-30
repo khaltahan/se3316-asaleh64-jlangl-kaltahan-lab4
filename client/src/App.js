@@ -15,7 +15,7 @@ function App() {
       <Route path = '/login' exact element = {<Login/>}/>
       <Route path = '/general' exact element = {<GeneralSearch/>}/>
       <Route path = '/' exact element = {<Navigate replace to='/general'/>}/>
-      {user && <Route path = '/account/change-password' exact element = { <ChangePassword user = {user}/>} /> }
+      {user && <Route path = '/account/change-password' exact element = { <ChangePassword userEmail = {userEmail}/>} /> }
     </Routes>
   );
 }
