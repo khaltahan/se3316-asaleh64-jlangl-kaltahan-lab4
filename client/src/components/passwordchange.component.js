@@ -42,7 +42,8 @@ const ChangePassword = ({ userEmail }) => {
     }
     return(
         <div className = {styles.container}>
-            <form className = {styles.form_container} onSubmit={handleSubmit}>
+            <div  className = {styles.form_container} onSubmit={handleSubmit}>
+            <form>
                 <h1>Change Password</h1>
                 <input 
                     type = "password" 
@@ -78,7 +79,14 @@ const ChangePassword = ({ userEmail }) => {
                 <div> 
                     <input className = {styles.green_btn} type="submit" value="Change Password"/>      
                 </div>
+                
                 </form>
+                <Link to = '/'>
+					<button className={styles.green_btn}>
+							Back to Home Page
+					</button>
+					</Link>
+                </div>
         </div>
     );
 }

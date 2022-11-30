@@ -1,20 +1,17 @@
 import styles from "../styles/authorizedview.module.css";
 import { Link } from 'react-router-dom'; 
+import DisplayTracks from '../components/LandingPage/displaytracks.component'
+import GeneralSearch from '../components/LandingPage/generalsearch.component'
+import Navbar from './navbar.component'
 
 const Overview = () => {
-	const handleLogout = () => {
-		localStorage.removeItem("token");
-		window.location.reload();
-	};
 	return (
 		<div className={styles.main_container}>
-			<nav className={styles.navbar}>
-				<h1>Home Page</h1>
-				<button className={styles.white_btn} onClick={handleLogout}>
-					Logout
-				</button>
-				<Link to = '/account/change-password'> Change Password </Link>
-			</nav>
+			<Navbar/>
+			{/* Components that are imported from landing page to be rendered in authorized view, may need to create different components
+			to have the required functionalities when user is authenticated/isAdmin */}
+			<GeneralSearch/>
+			<DisplayTracks/>
 		</div>
 	);
 };
