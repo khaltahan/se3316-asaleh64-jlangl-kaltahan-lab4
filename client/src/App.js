@@ -7,6 +7,7 @@ import GeneralSearch from './components/GeneralSearch/generalsearch.component';
 
 function App() {
   const user = localStorage.getItem("token");
+  const userEmail = localStorage.getItem("userEmail")
   return (
     <Routes>
       {user && <Route path = '/' exact element = {<Overview/>}/>}
