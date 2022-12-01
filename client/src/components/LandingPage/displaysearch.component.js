@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import styles from "./search.module.css"
+import {Link} from 'react-router-dom'
 
 const Search= ({track_title, artist_name,track_id,album_title,album_id,artist_id,track_duration}) =>{
     const [open,setOpen] = useState(false)
@@ -13,8 +14,12 @@ const Search= ({track_title, artist_name,track_id,album_title,album_id,artist_id
                 <p>Track Title: {track_title}</p>
             <p> Artist Name: {artist_name}</p>
             <button class = {styles.search_button} onClick = {expand}>See More</button>
+                <a href = {`https://www.youtube.com/results?search_query=${track_title}+${artist_name}`} target="_blank" rel="noopener noreferrer" >
+                <button class = {styles.search_button}>
+                Play on Youtube
+                </button>
+                </a>
             </div>
-            
             {open && 
             <span class ={styles.extended_info}>
             <p>Track ID:{track_id}</p>
