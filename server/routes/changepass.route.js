@@ -15,9 +15,9 @@ router.post('/', async (req,res) => {
     const currentPass = req.body.currentPass;
     const newPass = await bcrypt.hash(req.body.newPass,salt);
     const confirmPass = req.body.confirmPass
-    // user requesting password change 
+    // user requesting password change
     const user = await User.findOne({ 
-        email: req.body.email
+        _id:req.body.id
     })
     // check if user requesting the endpoint is valid
     if (!user) {

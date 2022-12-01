@@ -6,7 +6,7 @@ import styles from "../styles/passwordchange.module.css";
 // redirect 
 import  { Redirect } from 'react-router-dom'
 
-const ChangePassword = ({ userEmail }) => { 
+const ChangePassword = ({ user }) => { 
     // redirect 
     const navigate = useNavigate();
     //  contexts/states 
@@ -15,7 +15,7 @@ const ChangePassword = ({ userEmail }) => {
         currentPass: "", 
         newPass:"", 
         confirmPass:"",
-        email:userEmail
+        id: user
     })
     // gather data from form input to update state 
 	const handleChange = ({ currentTarget: input }) => {
@@ -30,7 +30,7 @@ const ChangePassword = ({ userEmail }) => {
             const {response} = await axios.post(url, userData)
             // remove token and user session 
             localStorage.removeItem("token");
-            localStorage.removeItem("userEmail");
+            localStorage.removeItem("user");
             // redirect user to login 
             navigate('/login')
         }
