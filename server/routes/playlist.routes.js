@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Playlist = require('../models/playlist.model');
 const Track =  require('../models/track.model.js');
+const Review = require('../models/review.model');
 
 
 // create playlist 
@@ -9,6 +10,7 @@ router.post('/create', async (req,res) => {
     var user = req.body.created_by;
     var list = req.body.playlist_name;
     var list_desc = req.body.description;
+    // default for this is false
     var visibility = req.body.is_public;
 
     // get all current users list 
@@ -90,7 +92,7 @@ router.delete('/delete', async(req,res) => {
         }
     }
     else{
-        return res.status(400).sned({
+        return res.status(400).send({
             message:"Invalid Permission, Please Register or log in"
         })
     }   
@@ -111,6 +113,41 @@ router.get('/all-lists', async (req,res) => {
     }
 })
 
+// show information about a playlist 
+router.get('/view', async (req,res) => {
+    // get user and list they are trying to view 
+    const user = req.query.user;
+    const list = req.query.list;
+
+    var listTracks = [];
+    // query the list 
+    const listToView = await Playlist.findOne({
+        created_by: user,
+        _id: list
+    }) 
+    // if playlist has tracks map the ids to numbers for reference, else return tracks as empty 
+    if (listToView.tracks){
+        const tracks = listToView.tracks.map(Number)
+
+        // for every track store it for return 
+        for (let i=0; i < tracks.length; i++){
+            const track = await Track.findOne({
+                trackId: tracks[i]
+            })
+            listTracks.push(track)
+        }
+
+        // on success return the playlist and the tracks that belong in it 
+        return res.status(200).send({
+            playlist:listToView,
+            tracks:listTracks
+        })
+    }
+    else{
+        listTracks = []
+    }
+})
+
 // edit playlist route 
 router.put('/edit', async (req, res) => {
     // get query values
@@ -123,9 +160,9 @@ router.put('/edit', async (req, res) => {
     const newVisibility = req.body.visibility; 
     var newTracks = req.body.tracks;
     // get date of change 
-    const  dateChanged = new Date().toISOString().split('T')[0]
+    const dateChanged = new Date().toISOString().split('T')[0]
 
-    // sanitze track input to get rid of any track ids  that do not exist 
+    // sanitize track input to get rid of any track ids  that do not exist 
     for (let i=0; i < newTracks.length; i++){
         const track = await Track.findOne(
             {track_id:newTracks[i]}
@@ -180,6 +217,43 @@ router.put('/edit', async (req, res) => {
     }
     catch(err) {
         return res.send(err)
+    }
+})
+
+// route to add review to public playlists 
+router.post('/add-review', async (req, res) => {
+    // request data for playlist 
+    const user = req.body.user
+    const list = req.body.list
+
+    // request data for review 
+    const rating = req.body.rating
+    const comments = req.body.comments
+    const reviewDate = new Date().toISOString().split('T')[0]
+
+    // get the list to review 
+    const listToReview = await Playlist.findOne({
+        _id:list,
+    })
+
+    // check if playlist is allowed to be reviewed
+    if (!listToReview.is_public){
+        console.log("List is not public cannot be accessed for review")
+    }
+    else{
+        // allow review to be done 
+
+        // create a review object 
+        const listReview = await Review.create({
+            reviewer:user,
+            rating:rating,
+            comments:comments,
+            date_of_review:reviewDate,
+        })
+
+        // add the reviews object's id to the list for reference 
+        listToReview.review = listReview._id
+        await listToReview.save();
     }
 })
 

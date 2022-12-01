@@ -26,7 +26,7 @@ const playlistSchema = new mongoose.Schema({
     },
     review:{
         type:Schema.Types.ObjectId, 
-        ref: 'Review'
+        ref:'Review',
     },
     is_public:{
         type:Boolean,
