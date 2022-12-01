@@ -5,24 +5,42 @@ const bcrypt = require('bcrypt')
 
 router.post('/', async (req, res) => {
     try{
+        // validate form data 
         const {error} = validate(req.body);
-        if(error){
-            return res.status(400).send({message:err.message})
-        }
+        // user attempting login 
         const user = await User.findOne({email:req.body.email})
-        if(!user){
-            return res.status(401).send({message:"Invalid Email or Password"
-        })}
-        const validPassword = await bcrypt.compare(
-            req.body.password,user.password);
-        if(!validPassword){
-            return res.status(401).send({message:"Invalid Email or Password"})
+
+        if(error){
+            return res.status(400).send({
+                message:err.message
+            })
         }
-        const token = user.generateAuthToken
-        res.status(200).send({data:token,message:"Logged in Succesfully" })
+
+        if(!user){
+            return res.status(401).send({
+                message:"Invalid Email or Password"
+            })
+        }
+
+        // compare login passwor with user password 
+        const validPassword = await bcrypt.compare(req.body.password,user.password);
+        if(!validPassword){
+            return res.status(401).send({
+                message:"Invalid Email or Password"
+            })
+        }
+        // generate authentication token for user on success
+        const token = user.generateAuthToken()
+
+        // send user daata 
+        res.status(200).send({
+            data:token, message:"Logged in Succesfully" 
+        })
     }
     catch(err){
-        res.status(500).send({message:"Internal Server Error"})
+        res.status(500).send({
+            message:"Internal Server Error"
+        })
     }
 })
 
