@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
 
         // send user daata 
         res.status(200).send({
-            data:token, message:"Logged in Succesfully" 
+            data:{token,user}, message:"Logged in Succesfully" 
         })
     }
     catch(err){

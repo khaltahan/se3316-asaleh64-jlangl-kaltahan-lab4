@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-// import user and review models 
+const Schema = require('mongoose').Schema;
+
 
 // playlist schema 
 const playlistSchema = new mongoose.Schema({
@@ -16,11 +17,16 @@ const playlistSchema = new mongoose.Schema({
         type:String
     }], 
     last_change:{
-        type:Date
+        type:String,
+        created:Date
+    },
+    description:{
+        type:String,
+        default:'A personal music list'
     },
     review:{
-        type: Schema.Types.ObjectId, 
-        ref: 'Review'
+        type:Schema.Types.ObjectId, 
+        ref:'Review',
     },
     is_public:{
         type:Boolean,
