@@ -68,12 +68,12 @@ router.get('/',async (req,res)=>{
 })
 
 //Get matching artist IDs based on artist name
-router.get('/:name',async (req,res)=>{
+router.get('/name',async (req,res)=>{
     try{
         const artists = await Tracks.find()
         let artistSearch = [];
         artists.forEach(item =>{
-                const condition1 = item.artist_name.toLowerCase().includes(req.params.name.toLowerCase());
+                const condition1 = item.artist_name.includes(req.body.artist_name);
                 //Search by track title
                  if(condition1){
                 artistSearch.push(item)

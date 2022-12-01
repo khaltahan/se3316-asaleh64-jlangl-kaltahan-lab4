@@ -29,23 +29,23 @@ router.post('/', upload.single('file'),async (req, res)=>{
     .fromFile('./uploads/raw_tracks.csv')
     .then(obj=>{
         try{
-        obj.forEach(async item =>{
-            const Tracks = new Track({
-                track_id:item.track_id,
-                album_id:item.album_id,
-                album_title:item.album_title,
-                artist_id:item.artist_id,
-                artist_name:item.artist_name,
-                tags:item.tags,
-                track_date_created:item.track_date_created,
-                track_date_recorded:item.track_date_recorded,
-                track_duration:item.track_duration,
-                track_genres:item.track_genres,
-                track_number:item.track_number,
-                track_title:item.track_title,
-                });
-                Tracks.save()
-        })
+            for(let i=0;i<10000;i++){
+                const Tracks = new Track({
+                    track_id:obj[i].track_id,
+                    album_id:obj[i].album_id,
+                    album_title:obj[i].album_title,
+                    artist_id:obj[i].artist_id,
+                    artist_name:obj[i].artist_name,
+                    tags:obj[i].tags,
+                    track_date_created:obj[i].track_date_created,
+                    track_date_recorded:obj[i].track_date_recorded,
+                    track_duration:obj[i].track_duration,
+                    track_genres:obj[i].track_genres,
+                    track_number:obj[i].track_number,
+                    track_title:obj[i].track_title,
+                    });
+                    Tracks.save()
+            }
         res.json({message:'Succesfully Uploaded'})
     }
     catch(err){
