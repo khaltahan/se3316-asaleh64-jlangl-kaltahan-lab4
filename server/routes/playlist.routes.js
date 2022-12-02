@@ -10,8 +10,8 @@ router.post('/create', async (req,res) => {
     var user = req.body.created_by;
     var list = req.body.playlist_name;
     var list_desc = req.body.description;
-    // default for this is false
-    var visibility = req.body.is_public;
+    // convert string visibility value to a boolean 
+    var visibility = (req.body.visibility === 'true');
 
     // get all current users list 
     const userLists = await Playlist.find(
