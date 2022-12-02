@@ -29,7 +29,7 @@ router.post('/', upload.single('file'),async (req, res)=>{
     .fromFile('./uploads/raw_tracks.csv')
     .then(obj=>{
         try{
-            for(let i=0;i<10000;i++){
+            for(let i=0;i<1000;i++){
                 const Tracks = new Track({
                     track_id:obj[i].track_id,
                     album_id:obj[i].album_id,
@@ -54,38 +54,13 @@ router.post('/', upload.single('file'),async (req, res)=>{
     })
 })
 
-router.get('/',async (req,res)=>{
-    try{
-        const tracks = await Track.find()
-        const trackSearch = [];
-        tracks.forEach(item =>{
-            if(item.track_id===req.body.track_id){
-                trackSearch.push(item)
-            }
-        }
-        )
-        res.send(trackSearch)
-    }
-    catch(err){
-        res.status(404).json({message: err.message})
-    }
-})
-
 
 //Get n matching trackIDs based on track title
-router.get('/title/:track_title',async (req,res)=>{
+router.get('/track_title/:track_title',async (req,res)=>{
     try{
-        const tracks = await Track.find()
-        let trackSearch = [];
-        tracks.forEach(item =>{
-                const condition1 = item.track_title.charAt(0).toLowerCase().includes(req.params.track_title.toLowerCase());
-                //Search by track title
-                 if(condition1 && trackSearch.length<50){
-                trackSearch.push(item)
-            }
-        }
-        )
-            res.send(trackSearch)
+
+        const tracks = await Track.find({track_title: req.params.track_title})
+        res.send(tracks)
     }
     catch(err){
         res.status(404).json({message: err.message})
@@ -93,19 +68,23 @@ router.get('/title/:track_title',async (req,res)=>{
 })
 
 //Get n matching trackIDs based on album title
-router.get('/album/:album_title',async (req,res)=>{
+router.get('/album_title/:album_title',async (req,res)=>{
     try{
-        const tracks = await Track.find()
-        let trackSearch = [];
-        tracks.forEach(item =>{
-                const condition1 = item.album_title.charAt(0).toLowerCase().includes(req.params.album_title.toLowerCase());
-                //Search by album title
-                 if(condition1 && trackSearch.length<50){
-                trackSearch.push(item)
-            }
-        }
-        )
-            res.send(trackSearch)
+
+        const albums = await Track.find({album_title: req.params.album_title})
+        res.send(albums)
+    }
+    catch(err){
+        res.status(404).json({message: err.message})
+    }
+})
+
+//Get n matching trackIDs based on track title
+router.get('/artist_name/:artist_name',async (req,res)=>{
+    try{
+
+        const artists = await Track.find({artist_name: req.params.artist_name})
+        res.send(artists)
     }
     catch(err){
         res.status(404).json({message: err.message})
