@@ -26,11 +26,6 @@ app.use('/login',loginRoute)
 const trackRoute = require('./routes/track.route')
 app.use('/data/tracks',trackRoute)
 
-const genreRoute = require('./routes/genre.route.js')
-app.use('/data/genres',genreRoute)
-
-const artistRoute = require('./routes/artist.route.js')
-app.use('/data/artists',artistRoute)
 
 const PORT = process.env.PORT;
 app.listen(PORT,() => console.log(`Listening on port ${PORT}`))
