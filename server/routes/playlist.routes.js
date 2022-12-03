@@ -125,10 +125,6 @@ router.get('/all-lists', async (req,res) => {
                 "track_count":0,
             }
 
-            // check if playlist has a review 
-            if (allLists[i].review.length > 0){
-                
-            }
             // default time of tracks 
             var totalSeconds = 0; 
             // tracks in the current playlist 
@@ -295,27 +291,78 @@ router.post('/add-review', async (req, res) => {
         _id:list,
     })
 
-    // check if playlist is allowed to be reviewed
+    // check if playlist is public 
     if (!listToReview.is_public){
         console.log("List is not public cannot be accessed for review")
     }
     else{
-        // allow review to be done 
+        // list is public thus can be reviewed 
 
-        // create a review object 
-        const listReview = await Review.create({
-            reviewer:user,
-            rating:rating,
-            comments:comments,
-            date_of_review:reviewDate,
-        })
+        // get a reference list of reviews done on the list 
+        var reviews = listToReview.reviews
+        var newReviewer;
+        var reviewToUpdate;
 
-        // save to the database 
-        await listReview.save()
-
-        // add the reviews object's id to the list for reference 
-        listToReview.review = listReview._id
-        await listToReview.save();
+        // check that list has reviews , if it does not allow user to create a review if it does check that the user has not already made a review on the list 
+    
+        if (reviews.length > 0) {
+            // reviews exist , check if user should create a new one or update one he already made 
+        
+            // check if user has already made a review to decide if a new review should be made or if to update their current review on the playlist 
+            for (let i = 0; i < reviews.length; i++) {
+                // get review object
+                const review = await Review.findOne({
+                    _id: reviews[i]
+                })
+                // check if user has already reviewed this list 
+                if (review.reviewer == user){
+                    // user has already made review allow them to update 
+                    newReviewer = false
+                    // reference the review that needs to be updated 
+                    reviewToUpdate = review
+                }
+            }
+            if (newReviewer){
+                // create new review 
+                const review = await Review.create({
+                    reviewer: user,
+                    rating:rating,
+                    comments:comments,
+                    date_of_review:reviewDate
+                })
+                // save the review
+                review.save()
+                // add the id of the review to the playlist being reviewed (keep track of who reviewed what)
+                listToReview.reviews.push(review._id)
+                // save the playlist 
+                listToReview.save()
+            }
+            else{
+                // update the user's review 
+                reviewToUpdate.rating = (rating) || reviewToUpdate.rating;
+                reviewToUpdate.comments = (comments.length > 0) && comments ||  reviewToUpdate.comments;
+                reviewToUpdate.date_of_review =  reviewDate
+                // save review 
+                reviewToUpdate.save()
+            }
+        }
+        else{
+            // no reviews exist create one 
+            // create new review 
+            const review = await Review.create({
+                reviewer: user,
+                rating:rating,
+                comments:comments,
+                date_of_review:reviewDate
+            })
+            // save the review
+            review.save()
+            // add the id of the review to the playlist being reviewed (keep track of who reviewed what)
+            listToReview.reviews.push(review._id)
+            // save the playlist 
+            listToReview.save()
+        }
+        return res.status(200).send(listToReview);
     }
 })
 
