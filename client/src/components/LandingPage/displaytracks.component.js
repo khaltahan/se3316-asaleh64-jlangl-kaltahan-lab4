@@ -14,7 +14,7 @@ const Tracks = () =>{
     },[query])    
 
     const getTracks = async()=>{
-        const response = await fetch(`http://localhost:${process.env.REACT_APP_API_PORT}/data/tracks/${query}`)
+        const response = await fetch(`http://localhost:${process.env.REACT_APP_API_PORT}/api/tracks/${query}`)
         const data = await response.json();
         setTracks(data)
     }

@@ -33,14 +33,6 @@ app.use('/api/playlist', playlistRoute)
 const trackRoute = require('./routes/track.route')
 app.use('/api/tracks',trackRoute)
 
-<<<<<<< HEAD
-=======
-const genreRoute = require('./routes/genre.route.js')
-app.use('/api/genres',genreRoute)
-
-const artistRoute = require('./routes/artist.route.js')
-app.use('/api/artists',artistRoute)
->>>>>>> main
 
 const PORT = process.env.PORT;
 app.listen(PORT,() => console.log(`Listening on port ${PORT}`))

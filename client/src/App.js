@@ -11,12 +11,18 @@ function App() {
   const user = localStorage.getItem("user")
   return (
     <Routes>
+      {/* Authorized Routes */}
       {authorized && <Route path = '/' exact element = {<Overview/>}/>}
-      <Route path = '/signup' exact element = {<Signup/>}/>
-      <Route path = '/login' exact element = {<Login/>}/>
-      <Route path = '/general' exact element = {<LandingPage/>}/>
-      <Route path = '/' exact element = {<Navigate replace to='/general'/>}/>
       {authorized && <Route path = '/account/change-password' exact element = { <ChangePassword user = {user}/>} /> }
+      {authorized && <Route path = '*' exact element = {<Navigate replace to='/'/>}/>}
+
+      {/* Unauthorized Routes */}
+      {!authorized && <Route path = '/signup' exact element = {<Signup/>}/>}
+      {!authorized &&<Route path = '/login' exact element = {<Login/>}/>}
+      {!authorized &&<Route path = '/general' exact element = {<LandingPage/>}/>}
+      {!authorized && <Route path = '/' exact element = {<Navigate replace to='/general'/>}/>}
+
+      
     </Routes>
   );
 }
