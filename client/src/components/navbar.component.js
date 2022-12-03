@@ -14,8 +14,12 @@ const Navbar = () => {
                 <h1>
                     Home Page
                 </h1>
+
+                {/* Unauthorized */}
                 {!user && <Link to ='/login'><button className = {styles.white_btn}>Login</button></Link>} 
                 {!user && <Link to = '/signup'><button className = {styles.white_btn}>Signup</button></Link>}
+
+                {/* Authorized */}
                 {user && <button className={styles.white_btn} onClick={handleLogout}>
 					Logout
 				</button> }
