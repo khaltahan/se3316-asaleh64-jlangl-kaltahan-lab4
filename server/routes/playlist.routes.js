@@ -4,7 +4,6 @@ const Track =  require('../models/track.model.js');
 const {User} = require('../models/user.model');
 const Review = require('../models/review.model');
 
-
 // create playlist 
 router.post('/create', async (req,res) => {
     // body data
@@ -13,6 +12,8 @@ router.post('/create', async (req,res) => {
     var list_desc = req.body.description;
     // convert string visibility value to a boolean 
     var visibility = (req.body.visibility === 'true');
+    // set last changed to current date 
+    var last_change = (req.body.last_change.length > 0) && req.body.last_change || new Date().toISOString().split('T')[0];
 
     // get all current users list 
     const userLists = await Playlist.find(
@@ -34,7 +35,8 @@ router.post('/create', async (req,res) => {
                     created_by: user,
                     playlist_name: list,
                     description: list_desc,
-                    is_public: visibility
+                    is_public: visibility,
+                    last_change: last_change
                 });
 
                 // save list creation 
@@ -121,14 +123,30 @@ router.get('/all-lists', async (req,res) => {
                 "tracks": allLists[i].tracks,
                 "description": allLists[i].description,
                 "is_public": allLists[i].is_public,
-                "playtime": "",
-                "track_count":0,
+                "last_change": allLists[i].last_change
             }
+
+            // get list reviews and calculate average rating 
+            var reviews = allLists[i].reviews
+            var ratings = []
+            if (reviews.length > 0){
+                // calculate average rating 
+                for (let i = 0; i < reviews.length; i++){
+                    // get current rating and append it to list of rating 
+                    const review = await Review.findOne({
+                        _id: reviews[i]
+                    })
+                    ratings += review.rating; 
+                }
+            }   
+            // get average rating of each list 
+            list["average_rating"] = (ratings.length > 0) && (ratings/ratings.length) || 0 ;
 
             // default time of tracks 
             var totalSeconds = 0; 
             // tracks in the current playlist 
             var tracks = allLists[i].tracks;
+
             // check if tracks of the current playlist exist 
             if (tracks.length > 1){
                 // get total amount of seconds from each track 
@@ -144,6 +162,7 @@ router.get('/all-lists', async (req,res) => {
                 }
                 // convert total playtime to minutes and seconds  
                 list["playtime"] = Math.floor(totalSeconds / 60)+":"+(totalSeconds - (Math.floor(totalSeconds / 60) * 60))
+                // get number of tracks of each list 
                 list["track_count"] = tracks.length
                 lists.push(list)
             }
@@ -154,10 +173,18 @@ router.get('/all-lists', async (req,res) => {
                 lists.push(list)
             }
         }
-        // get number of tracks of each list 
+       
+        // sort the list by date of last changed
+        lists.sort( (a,b) => {
+            // get the date values of the stored strings 
+            a.last_change = new Date (a.last_change);
+            b.last_change = new Date (b.last_change);
+            
+            // sort by most recent modified 
+            return b.last_change - a.last_change;
+        })
 
-        // get average rating of each list 
-
+        // return list for display 
         return res.status(200).send({
             user: user,
             lists: lists
@@ -323,25 +350,31 @@ router.post('/add-review', async (req, res) => {
                 }
             }
             if (newReviewer){
-                // create new review 
-                const review = await Review.create({
-                    reviewer: user,
-                    rating:rating,
-                    comments:comments,
-                    date_of_review:reviewDate
-                })
-                // save the review
-                review.save()
-                // add the id of the review to the playlist being reviewed (keep track of who reviewed what)
-                listToReview.reviews.push(review._id)
-                // save the playlist 
-                listToReview.save()
+                // create new review
+                try{
+                    const review = await Review.create({
+                        reviewer: user,
+                        rating:rating,
+                        comments:comments,
+                        date_of_review:reviewDate
+                    })
+                    // save the review
+                    review.save()
+                    // add the id of the review to the playlist being reviewed (keep track of who reviewed what)
+                    listToReview.reviews.push(review._id)
+                    // save the playlist 
+                    listToReview.save()
+                } 
+                catch(err){
+                    return res.status(400).send(err);
+                }
             }
             else{
                 // update the user's review 
+                reviewToUpdate.reviewer = reviewToUpdate.reviewer;
                 reviewToUpdate.rating = (rating) || reviewToUpdate.rating;
                 reviewToUpdate.comments = (comments.length > 0) && comments ||  reviewToUpdate.comments;
-                reviewToUpdate.date_of_review =  reviewDate
+                reviewToUpdate.date_of_review =  reviewDate;
                 // save review 
                 reviewToUpdate.save()
             }
@@ -349,18 +382,24 @@ router.post('/add-review', async (req, res) => {
         else{
             // no reviews exist create one 
             // create new review 
-            const review = await Review.create({
+            try{
+                const review = await Review.create({
                 reviewer: user,
                 rating:rating,
                 comments:comments,
                 date_of_review:reviewDate
-            })
-            // save the review
-            review.save()
-            // add the id of the review to the playlist being reviewed (keep track of who reviewed what)
-            listToReview.reviews.push(review._id)
-            // save the playlist 
-            listToReview.save()
+                })
+                // save the review
+                review.save()
+                // add the id of the review to the playlist being reviewed (keep track of who reviewed what)
+                listToReview.reviews.push(review._id)
+                // save the playlist 
+                listToReview.save()  
+            }
+            catch(err){
+                return res.status(400).send(err);
+            }
+
         }
         return res.status(200).send(listToReview);
     }

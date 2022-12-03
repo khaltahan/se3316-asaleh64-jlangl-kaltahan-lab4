@@ -29,12 +29,12 @@ const AllLists = ( {user} ) => {
                     return (
                         <div>
                             <button>
-                                <p> {list.playlist_name} </p>
+                                <h3> {list.playlist_name} </h3>
                                 <p> Owner: {currentUser.name}</p>
-                                <p> Tracks:{list.track_count} </p>
-                                <p> Playtime:{list.playtime}</p>
+                                <p> Tracks: {list.track_count} </p>
+                                <p> Playtime: {list.playtime}</p>
                                 {list.is_public == true && 
-                                    <p> Average Rating:</p>
+                                    <p> Average Rating: {list.average_rating}</p>
                                 }
                             </button>
                         </div>

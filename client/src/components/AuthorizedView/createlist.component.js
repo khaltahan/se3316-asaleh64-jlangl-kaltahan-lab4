@@ -55,6 +55,7 @@ const CreatePlayList = ( {user} ) => {
                     <input id = "private" type = "radio" onChange = {handleInput} name = "visibility" value = "false"/>
                     <label for="public"> Private </label><br></br>
                 </div>
+                <button type="submit" onSubmit={handleSubmit}> Create </button>
             </form>
             {error && 
                 <div> 
