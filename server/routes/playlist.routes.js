@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Playlist = require('../models/playlist.model');
 const Track =  require('../models/track.model.js');
+const {User} = require('../models/user.model');
 const Review = require('../models/review.model');
 
 
@@ -98,15 +99,73 @@ router.delete('/delete', async(req,res) => {
     }   
 })
 
-// get playlists 
+// get playlists and their information 
 router.get('/all-lists', async (req,res) => {
-    // return lists of the user requesting lists and not other users 
+    var lists = []
     try{
+        // get user playlist and user info 
         const allLists = await Playlist.find({
             created_by: req.query.user
         });
+        const user = await User.findById({
+            _id: req.query.user 
+        })
 
-        return res.send(allLists);
+        // get playtime of each list if it has tracks 
+        for (let i = 0; i < allLists.length; i++){
+            // current list 
+            var list = {
+                "_id": allLists[i]._id,
+                "created_by": allLists[i].created_by,
+                "playlist_name": allLists[i].playlist_name,
+                "tracks": allLists[i].tracks,
+                "description": allLists[i].description,
+                "is_public": allLists[i].is_public,
+                "playtime": "",
+                "track_count":0,
+            }
+
+            // check if playlist has a review 
+            if (allLists[i].review.length > 0){
+                
+            }
+            // default time of tracks 
+            var totalSeconds = 0; 
+            // tracks in the current playlist 
+            var tracks = allLists[i].tracks;
+            // check if tracks of the current playlist exist 
+            if (tracks.length > 1){
+                // get total amount of seconds from each track 
+                for (let j =0; j < tracks.length ; j ++){
+                    // current track in iteration
+                    const track = await Track.findOne({
+                        track_id: tracks[j]
+                    })
+                    if (track.track_duration !== undefined){
+                        const[mins,secs] = track.track_duration.split(":").map(Number)
+                        totalSeconds +=  mins * 60 + secs
+                    }
+                }
+                // convert total playtime to minutes and seconds  
+                list["playtime"] = Math.floor(totalSeconds / 60)+":"+(totalSeconds - (Math.floor(totalSeconds / 60) * 60))
+                list["track_count"] = tracks.length
+                lists.push(list)
+            }
+            else{
+                // push list with 0 playtime 
+                list["playtime"] = "00:00"
+                list["track_count"] = tracks.length
+                lists.push(list)
+            }
+        }
+        // get number of tracks of each list 
+
+        // get average rating of each list 
+
+        return res.status(200).send({
+            user: user,
+            lists: lists
+        })
     }
     catch(err){
         console.log(err)
@@ -169,7 +228,7 @@ router.put('/edit', async (req, res) => {
         );
         // check if the id is vlaid 
         if (!track){
-            // remove track if from list  
+            // remove invalid tracks from list
             newTracks.splice(i, 1)
         }
     }
@@ -207,7 +266,7 @@ router.put('/edit', async (req, res) => {
             const change = await Playlist.findOne({
                 created_by: user,
             })
-            return res.status(200).send(change)
+            return res.status(200).send(list)
         }
         else{
             return res.status(400).send({
@@ -250,6 +309,9 @@ router.post('/add-review', async (req, res) => {
             comments:comments,
             date_of_review:reviewDate,
         })
+
+        // save to the database 
+        await listReview.save()
 
         // add the reviews object's id to the list for reference 
         listToReview.review = listReview._id

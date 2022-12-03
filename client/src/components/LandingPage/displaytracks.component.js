@@ -4,7 +4,7 @@ import DisplaySearch from './displaysearch.component'
 
 
 
-const Tracks = () =>{
+const Tracks = () => {
 
     return(
         <div className = {styles.tracks}> 

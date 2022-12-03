@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-
-
+import styles from '../../styles/createlist.module.css'
 
 const CreatePlayList = ( {user} ) => {
     // state/context variables 
@@ -32,23 +31,30 @@ const CreatePlayList = ( {user} ) => {
         }   
         catch(error){
             if (error.response && error.response != 200){
-                console.log(error)
                 setErrors(error.response.data.message)
             }
         }
     }
-
-    console.log(playlistData)
     return(
         <div>
-            <form onSubmit = {handleSubmit}>
+            <form className = {styles.form_container} onSubmit = {handleSubmit}>
                 {/* list name input */}
+                <p><label> Playlist Name: </label></p>
                 <input type="text" name = "playlist_name" onChange = {handleInput} value = {playlistData.playlist_name} />
                 {/* optional description text area */}
-                <textarea name = "description" onChange = {handleInput} value = {playlistData.description}></textarea>
+                <div>
+                    <p><label for="w3review"> Playlist Description </label></p>
+                    <div>
+                        <textarea name = "description" onChange = {handleInput} value = {playlistData.description}></textarea>
+                    </div>
+                </div>
                 {/* visibility radio button */}
-                <input type="radio" onChange = {handleInput} name = "visibility" value = "true"/> Public <br/>
-                <input type="radio" onChange = {handleInput} name = "visibility" value = "false"/> Private <br/>
+                <div>
+                    <input id = "public" type = "radio" onChange = {handleInput} name = "visibility" value = "true"/>
+                    <label for="public"> Public </label><br></br>
+                    <input id = "private" type = "radio" onChange = {handleInput} name = "visibility" value = "false"/>
+                    <label for="public"> Private </label><br></br>
+                </div>
             </form>
             {error && 
                 <div> 
