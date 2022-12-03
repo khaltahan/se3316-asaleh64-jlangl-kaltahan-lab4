@@ -1,17 +1,6 @@
 const express = require('express');
-const app = express();
 const router = express.Router();
-const cors = require('cors');
-let bodyParser = require('body-parser');
-let multer = require('multer');
-let csv = require('csvtojson');
 const Track =  require('../models/track.model.js');
-
-let upload =  multer({dest: 'uploads'})
-
-app.use(cors())
-app.use(bodyParser.urlencoded({extended: false}))
-app.use(bodyParser.json())
 
 
 router.get('/all',async (req, res)=>{
@@ -24,6 +13,7 @@ router.get('/all',async (req, res)=>{
     }
 })
 
+<<<<<<< HEAD
 router.post('/', upload.single('file'),async (req, res)=>{
     csv()
     .fromFile('./uploads/raw_tracks.csv')
@@ -52,6 +42,23 @@ router.post('/', upload.single('file'),async (req, res)=>{
         err.json({message: err.message});
     }
     })
+=======
+router.get('/',async (req,res)=>{
+    try{
+        const tracks = await Track.find()
+        const trackSearch = [];
+        tracks.forEach(item =>{
+            if(item.track_id===req.body.track_id){
+                trackSearch.push(item)
+            }
+        }
+        )
+        res.send(trackSearch)
+    }
+    catch(err){
+        res.status(404).json({message: err.message})
+    }
+>>>>>>> main
 })
 
 

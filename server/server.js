@@ -14,18 +14,33 @@ db.on('error',(error=>{
 }))
 db.once('open',()=> console.log('Connected to Database'))
 
+// route to change user password 
 const changePassRoute = require('./routes/changepass.route')
 app.use('/account/change-password',changePassRoute)
 
+// route to register user 
 const registerRoute = require('./routes/register.route')
 app.use('/register',registerRoute)
 
+// route to login user 
 const loginRoute = require('./routes/login.route')
 app.use('/login',loginRoute)
 
-const trackRoute = require('./routes/track.route')
-app.use('/data/tracks',trackRoute)
+// playlist routes 
+const playlistRoute = require('./routes/playlist.routes')
+app.use('/api/playlist', playlistRoute)
 
+const trackRoute = require('./routes/track.route')
+app.use('/api/tracks',trackRoute)
+
+<<<<<<< HEAD
+=======
+const genreRoute = require('./routes/genre.route.js')
+app.use('/api/genres',genreRoute)
+
+const artistRoute = require('./routes/artist.route.js')
+app.use('/api/artists',artistRoute)
+>>>>>>> main
 
 const PORT = process.env.PORT;
 app.listen(PORT,() => console.log(`Listening on port ${PORT}`))

@@ -1,0 +1,1 @@
+// pass list._id when trying to view a specific list 

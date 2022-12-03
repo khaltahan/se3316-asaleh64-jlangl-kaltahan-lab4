@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Schema = require('mongoose').Schema;
 
 // user review schema 
 const reviewSchema = new mongoose.Schema({
@@ -13,6 +14,10 @@ const reviewSchema = new mongoose.Schema({
     }, 
     comments:{
         type:String,
+    },
+    date_of_review:{
+        type:String,
+        created:Date
     },
     is_hidden:{
         type:Boolean,
