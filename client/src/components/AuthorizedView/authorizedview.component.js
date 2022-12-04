@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import DisplayTracks from '../LandingPage/displaytracks.component'
 import GeneralSearch from '../LandingPage/generalsearch.component'
 import Navbar from '../navbar.component'
-import AllLists from './personal-playlists.component'
+import AllLists from './lists.component'
 
 // import creating list component 
 import CreatePlayList from "./createlist.component";
