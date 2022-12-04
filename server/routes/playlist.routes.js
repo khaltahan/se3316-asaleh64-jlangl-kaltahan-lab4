@@ -13,7 +13,7 @@ router.post('/create', async (req,res) => {
     // convert string visibility value to a boolean 
     var visibility = (req.body.visibility === 'true');
     // set last changed to current date 
-    var last_change = (req.body.last_change.length > 0) && req.body.last_change || new Date().toISOString().split('T')[0];
+    var last_change = (req.body.last_change) && req.body.last_change || new Date().toISOString().split('T')[0];
 
     // get all current users list 
     const userLists = await Playlist.find(
@@ -128,7 +128,7 @@ router.get('/all-lists', async (req,res) => {
 
             // get list reviews and calculate average rating 
             var reviews = allLists[i].reviews
-            var ratings = []
+            var ratings = 0
             if (reviews.length > 0){
                 // calculate average rating 
                 for (let i = 0; i < reviews.length; i++){
@@ -140,8 +140,7 @@ router.get('/all-lists', async (req,res) => {
                 }
             }   
             // get average rating of each list 
-            list["average_rating"] = (ratings.length > 0) && (ratings/ratings.length) || 0 ;
-
+            list["average_rating"] = (ratings > 0) && (ratings/reviews.length) || 0 ;
             // default time of tracks 
             var totalSeconds = 0; 
             // tracks in the current playlist 
@@ -327,7 +326,7 @@ router.post('/add-review', async (req, res) => {
 
         // get a reference list of reviews done on the list 
         var reviews = listToReview.reviews
-        var newReviewer;
+        var newReviewer = true;
         var reviewToUpdate;
 
         // check that list has reviews , if it does not allow user to create a review if it does check that the user has not already made a review on the list 
@@ -351,6 +350,7 @@ router.post('/add-review', async (req, res) => {
             }
             if (newReviewer){
                 // create new review
+                console.log("User has not made review on this list")
                 try{
                     const review = await Review.create({
                         reviewer: user,
@@ -369,7 +369,8 @@ router.post('/add-review', async (req, res) => {
                     return res.status(400).send(err);
                 }
             }
-            else{
+            if(!newReviewer){
+                console.log("user has made review on this list")
                 // update the user's review 
                 reviewToUpdate.reviewer = reviewToUpdate.reviewer;
                 reviewToUpdate.rating = (rating) || reviewToUpdate.rating;
@@ -404,5 +405,101 @@ router.post('/add-review', async (req, res) => {
         return res.status(200).send(listToReview);
     }
 })
+
+// view public playlists of random users 
+router.get('/public-playlists', async (req,res) => {
+    // list of playlists to display 
+    var userLists = []
+
+    // get user ids of users who have public playlists 
+    const publicLists = await Playlist.find({
+        is_public: true
+    })
+    
+    var averageReview = 0;
+    // return data for 10 of the playlists 
+    // get lists from up to 10 users out of the hash map 
+    for (let i = 0 ; i < 10; i ++){
+        // make sure the list exists
+        if (publicLists[i]){
+            // when a user has been selected create the preset ist object 
+            var userList = {
+                "_id": publicLists[i]._id,
+                "created_by": publicLists[i].created_by,
+                "playlist_name": publicLists[i].playlist_name,
+                "tracks": publicLists[i].tracks,
+                "description": publicLists[i].description,
+                "is_public": publicLists[i].is_public,
+                "last_change": publicLists[i].last_change,
+                "reviews":publicLists[i].reviews
+            }
+            // find the creator of the list 
+            const creator = await User.findById( publicLists[i].created_by);
+            userList["creator"] = creator.name;
+
+            // average rating 
+
+            // get list reviews and calculate average rating 
+            var reviews = userList.reviews
+            var ratings = 0;
+            if (reviews.length > 0){
+                // calculate average rating 
+                for (let i = 0; i < reviews.length; i++){
+                    // get current rating and append it to list of rating 
+                    const review = await Review.findOne({
+                        _id: reviews[i]
+                    })
+                    ratings += review.rating; 
+                }
+            }   
+            // get average rating of each list 
+            userList["average_rating"] = (ratings > 0) && (ratings/reviews.length) || 0 ;
+
+
+            // get track count , and platime of the current public list
+
+            // playlist tracks 
+            const tracks = userList.tracks
+            // number of tracks 
+            userList["track_count"] = tracks.length
+            // average playtime 
+            if (tracks.length > 0){
+                // get total amount of seconds from each track 
+                    for (let j =0; j < tracks.length ; j ++){
+                        // current track in iteration
+                        const track = await Track.findOne({
+                            track_id: tracks[j]
+                        })
+                        if (track.track_duration !== undefined){
+                            const[mins,secs] = track.track_duration.split(":").map(Number)
+                            totalSeconds +=  mins * 60 + secs
+                        }
+                    }
+                // convert total playtime to minutes and seconds  
+                userList["playtime"] = Math.floor(totalSeconds / 60)+":"+(totalSeconds - (Math.floor(totalSeconds / 60) * 60))
+            }
+            else{
+                userList["track_count"] = 0
+                userList["playtime"] = "00:00"
+            }
+            // push public list for display
+            userLists.push(userList);
+
+            // sort playlist by date
+            userLists.sort( (a,b) => {
+                // get the date values of the stored strings 
+                a.last_change = new Date (a.last_change);
+                b.last_change = new Date (b.last_change);
+                
+                // sort by most recent modified 
+                return b.last_change - a.last_change;
+            })
+            
+        }
+    }
+    return res.status(200).send({
+        lists:userLists
+    })
+}) 
 
 module.exports = router;

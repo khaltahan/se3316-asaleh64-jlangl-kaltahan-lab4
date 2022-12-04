@@ -21,7 +21,7 @@ const CreatePlayList = ( {user} ) => {
     }
 
     // event handler to handle user data submission 
-    const handleSubmit = async (event) =>{
+    const handleSubmit = async (event) => {
         event.preventDefault();
         // attempt post request 
         try{

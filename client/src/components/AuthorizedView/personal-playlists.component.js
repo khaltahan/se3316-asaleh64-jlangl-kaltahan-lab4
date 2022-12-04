@@ -1,16 +1,11 @@
 import axios from "axios";
 import { useState } from "react";
+import styles from '../../styles/generalsearch.module.css';
 
 const AllLists = ( {user} ) => {
     const [lists, setLists] = useState([])
     const [currentUser, setUser] = useState({})
-    /*
-        name of the play-list, 
-        creator’s user name, 
-        number of tracks, 
-        total play time
-        average rating.
-    */
+
     const fetchLists = async () => {
         // get request to get lists of current user 
         let url = `http://localhost:${process.env.REACT_APP_API_PORT}/api/playlist/all-lists?user=${user}`
@@ -20,22 +15,29 @@ const AllLists = ( {user} ) => {
         setUser(res.data.user)    
     }
     fetchLists();
-    // display each list 
+
+    // event handler to display more information about a list when pressed 
+    const viewMore = async (event) => {
+        event.preventDefault();
+        // create a indepth pop up, passing the list ID of the pressed list 
+        
+        alert(event.target.value)
+    }
+
+    // display user's list with necessary info 
     return (
-        <div>
+        <div class = {styles.track_list}>
             Lists:
             <p>
                 {lists.map(list => {
                     return (
                         <div>
-                            <button>
+                            <button onClick = {viewMore} value = {list._id} >
                                 <h3> {list.playlist_name} </h3>
                                 <p> Owner: {currentUser.name}</p>
                                 <p> Tracks: {list.track_count} </p>
                                 <p> Playtime: {list.playtime}</p>
-                                {list.is_public == true && 
-                                    <p> Average Rating: {list.average_rating}</p>
-                                }
+                                <p> Average Rating: {list.average_rating}</p>
                             </button>
                         </div>
                     )

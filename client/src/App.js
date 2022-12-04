@@ -1,5 +1,5 @@
 import { Route, Routes, Navigate} from 'react-router-dom'
-import Overview from './components/authorizedview.component';
+import Overview from './components/AuthorizedView/authorizedview.component';
 import Login from './components/login.component';
 import Signup from './components/signup.component';
 import ChangePassword from './components/passwordchange.component';

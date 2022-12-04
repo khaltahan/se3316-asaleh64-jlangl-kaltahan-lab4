@@ -6,6 +6,9 @@
 	align-items: center;
 	gap: 3vw;
 }
+.content{
+    display: flex;
+}
 
 .navbar h1 {
 	color: white;
