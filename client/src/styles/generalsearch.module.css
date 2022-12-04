@@ -17,11 +17,11 @@ h1{
     padding: 10px;
     background-color: rgb(230, 230, 226);
     text-align: center;
-    height:35vw;
-    max-height: 40vw;
+    height:max-content;
+    max-height: 80vh;
     overflow:scroll;
-    margin:3vh 1vh 0vh 1vh ;
-    width:80%;
+    margin:3vh 1vh 1vh 1vh ;
+    width:60%;
 }
 .track_list{
     border-radius:5px;
