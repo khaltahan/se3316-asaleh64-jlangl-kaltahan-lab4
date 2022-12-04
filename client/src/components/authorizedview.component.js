@@ -1,7 +1,6 @@
 import styles from "../styles/authorizedview.module.css";
 import { Link } from 'react-router-dom'; 
-import DisplayTracks from './LandingPage/displaytracks.component'
-import GeneralSearch from './LandingPage/generalsearch.component'
+import DisplayTracks from '../components/LandingPage/displaytracks.component'
 import Navbar from './navbar.component'
 import AllLists from './AuthorizedView/lists.component'
 
@@ -19,7 +18,7 @@ const Overview = () => {
 				<DisplayTracks/>
 				<AllLists user = {user} />
 			</div>
-			<CreatePlayList user = {user}/>
+			<CreatePlayList user = {user} />
 		</div>
 	);
 };

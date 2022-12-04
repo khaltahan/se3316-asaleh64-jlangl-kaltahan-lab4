@@ -9,19 +9,19 @@ const Search= ({track_title, artist_name,track_id,album_title,album_id,artist_id
         setOpen(!open)
     };
     return(
-        <div class = {styles.track_row}>
-            <div class = {styles.header}>
-                <p>Track Title: {track_title}</p>
+        <div className = {styles.track_row}>
+            <div className = {styles.header}>
+            <p>Track Title: {track_title}</p>
             <p> Artist Name: {artist_name}</p>
-            <button class = {styles.search_button} onClick = {expand}>See More</button>
-                <a href = {`https://www.youtube.com/results?search_query=${track_title}+${artist_name}`} target="_blank" rel="noopener noreferrer" >
-                <button class = {styles.search_button}>
+            <button className = {styles.search_button} onClick = {expand}>See More</button>
+                <a href = {`https://www.youtube.com/results?search_query=${artist_name}+${track_title}`} target="_blank" rel="noopener noreferrer" >
+                <button className = {styles.search_button}>
                 Play on Youtube
                 </button>
                 </a>
             </div>
             {open && 
-            <span class ={styles.extended_info}>
+            <span className ={styles.extended_info}>
             <p>Track ID:{track_id}</p>
             <p>Album Title:{album_title}</p>
             <p>Album ID:{album_id}</p>

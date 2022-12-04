@@ -32,19 +32,11 @@ router.get('/',async (req,res)=>{
 
 
 //Get n matching trackIDs based on track title
-router.get('/title/:track_title',async (req,res)=>{
+router.get('/track_title/:track_title',async (req,res)=>{
     try{
         const tracks = await Track.find()
-        let trackSearch = [];
-        tracks.forEach(item =>{
-                const condition1 = item.track_title.charAt(0).toLowerCase().includes(req.params.track_title.toLowerCase());
-                //Search by track title
-                 if(condition1 && trackSearch.length<50){
-                trackSearch.push(item)
-            }
-        }
-        )
-            res.send(trackSearch)
+        const results = handleTitleSearch(req.params.track_title,tracks)
+        res.send(results);
     }
     catch(err){
         res.status(404).json({message: err.message})
@@ -52,23 +44,72 @@ router.get('/title/:track_title',async (req,res)=>{
 })
 
 //Get n matching trackIDs based on album title
-router.get('/album/:album_title',async (req,res)=>{
+router.get('/album_title/:album_title',async (req,res)=>{
     try{
+
         const tracks = await Track.find()
-        let trackSearch = [];
-        tracks.forEach(item =>{
-                const condition1 = item.album_title.charAt(0).toLowerCase().includes(req.params.album_title.toLowerCase());
-                //Search by album title
-                 if(condition1 && trackSearch.length<50){
-                trackSearch.push(item)
-            }
-        }
-        )
-            res.send(trackSearch)
+        const results = handleAlbumSearch(req.params.album_title,tracks)
+        res.send(results);
     }
     catch(err){
         res.status(404).json({message: err.message})
     }
 })
+
+//Get n matching trackIDs based on track title
+router.get('/artist_name/:artist_name',async (req,res)=>{
+    try{
+
+        const tracks = await Track.find()
+        const results = handleArtistSearch(req.params.artist_name,tracks)
+        res.send(results);
+    }
+    catch(err){
+        res.status(404).json({message: err.message})
+    }
+})
+
+//Function to check if input is only characters from A-Z
+const handleTitleSearch = function(input, tracks){
+    const resultArr = [];
+    const keywords = input.split(/[.\-=/_,]/)
+
+    tracks.forEach(item =>{
+        keywords.forEach(value =>{
+            if(item.track_title.toLowerCase().includes(value.toLowerCase())){
+                resultArr.push(item);
+            }
+        })
+    })
+    return resultArr;
+};
+
+const handleAlbumSearch = function(input, tracks){
+    const resultArr = [];
+    const keywords = input.split(/[.\-=/_,]/)
+
+    tracks.forEach(item =>{
+        keywords.forEach(value =>{
+            if(item.album_title.toLowerCase().includes(value.toLowerCase())){
+                resultArr.push(item);
+            }
+        })
+    })
+    return resultArr;
+};
+
+const handleArtistSearch = function(input, tracks){
+    const resultArr = [];
+    const keywords = input.split(/[.\-=/_,]/)
+
+    tracks.forEach(item =>{
+        keywords.forEach(value =>{
+            if(item.artist_name.toLowerCase().includes(value.toLowerCase())){
+                resultArr.push(item);
+            }
+        })
+    })
+    return resultArr;
+};
 
 module.exports = router;
