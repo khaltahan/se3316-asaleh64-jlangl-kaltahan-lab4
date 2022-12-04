@@ -9,8 +9,7 @@ const LandingPage = () =>{
 return(
     <div>
         <Navbar/>
-        <GeneralSearch/>
-        <div className =  {styles.content}>
+        <div>
         <Tracks/>
         <PublicLists/>
         </div>
