@@ -24,8 +24,8 @@ const playlistSchema = new mongoose.Schema({
         type:String,
         default:'A personal music list'
     },
-    review:{
-        type:Schema.Types.ObjectId, 
+    reviews:{
+        type:[Schema.Types.ObjectId], 
         ref:'Review',
     },
     is_public:{

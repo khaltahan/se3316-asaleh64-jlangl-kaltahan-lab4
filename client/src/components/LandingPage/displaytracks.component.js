@@ -84,7 +84,6 @@ const Tracks = () =>{
             </div>
         </div>
     )
-
 }
 
 export default Tracks;

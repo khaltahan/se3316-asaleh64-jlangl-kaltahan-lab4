@@ -8,9 +8,9 @@ const LandingPage = () =>{
 return(
     <div>
         <Navbar/>
-        <div className =  {styles.content}>
-        <DisplayTracks/>
-        <PublicLists/>
+        <div>
+          <Tracks/>
+          <PublicLists/>
         </div>
     </div>
 )

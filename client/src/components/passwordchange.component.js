@@ -73,9 +73,10 @@ const ChangePassword = ({ user }) => {
                     className = {styles.input}
                 />
                 {error && 
-                <div className = {styles.error_msg}> 
-                    <p>{error}</p> 
-                </div>} 
+                    <div className = {styles.error_msg}> 
+                        <p>{error}</p> 
+                    </div>
+                } 
                 <div> 
                     <input className = {styles.green_btn} type="submit" value="Change Password"/>      
                 </div>
