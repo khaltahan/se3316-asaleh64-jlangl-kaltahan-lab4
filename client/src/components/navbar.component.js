@@ -20,12 +20,8 @@ const Navbar = () => {
                 {!user && <Link to = '/signup'><button className = {styles.white_btn}>Signup</button></Link>}
 
                 {/* Authorized */}
-                {user && <button className={styles.white_btn} onClick={handleLogout}>
-					Logout
-				</button> }
-                {
-                    user && <Link to = "/account/change-password"><button className = {styles.white_btn}>Change Password</button></Link>
-                }
+                {user && <button className={styles.white_btn} onClick={handleLogout}>Logout</button> }
+                {user && <Link to = "/account/change-password"><button className = {styles.white_btn}>Change Password</button></Link>}
             </div>
 	);
 };
