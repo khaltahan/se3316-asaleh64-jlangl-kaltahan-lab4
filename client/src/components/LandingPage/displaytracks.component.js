@@ -49,7 +49,7 @@ const Tracks = () =>{
     }
 
     return(
-        <div>
+        <>
             <div className = {styles.search}>
                         <button onClick = {refresh} className = {styles.button}>
                             All Tracks
@@ -66,7 +66,8 @@ const Tracks = () =>{
                             Filter by Artist : <input type="text" value = {artistSearch} onChange ={updateArtistSearch}/>
                             <button id = "search-artist">Search</button>
                         </form>
-                    </div>
+            </div>
+
             <div className = {styles.tracks}> 
             {/* Values are currently hard coded, need to be passed down as prop */}
                 {tracks.map(track =>(
@@ -82,7 +83,7 @@ const Tracks = () =>{
                     />
                 ))}           
             </div>
-        </div>
+        </>
     )
 }
 
