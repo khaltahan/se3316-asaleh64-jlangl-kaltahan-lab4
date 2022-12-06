@@ -464,6 +464,7 @@ router.get('/public-playlists', async (req,res) => {
             userList["track_count"] = tracks.length
             // average playtime 
             if (tracks.length > 0){
+                var totalSeconds = 0;
                 // get total amount of seconds from each track 
                     for (let j =0; j < tracks.length ; j ++){
                         // current track in iteration
