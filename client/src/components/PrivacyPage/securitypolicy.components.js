@@ -1,17 +1,17 @@
 import {React, useState} from 'react';
 import styles from './privacy.module.css'
+import ReactQuill from "react-quill"
+import 'react-quill/dist/quill.snow.css'
 
 const SecurityPage = ()=>{
+  //const name = "MusicArchive.inc";
+  const notice = "Sample"
 
         const [toggle, setToggle] = useState(true);
-        const [text, setText] = useState("Sample Text");
+        const [text, setText] = useState(notice);
 
   function toggleInput() {
       setToggle(false);
-  }
-
-  function handleChange(event) {
-    setText(event.target.value);
   }
   const handleUpdatedDone = () => {
         setToggle(true);
@@ -20,13 +20,14 @@ const SecurityPage = ()=>{
   return (
     <div className={styles.App}>
       <h1>Security Policy</h1>
-      {toggle ? (
-        <p onDoubleClick={toggleInput}>{text}</p>
-      ) : (
-        <div>
-            <textarea className = {styles.input} value={text} onChange={handleChange}/>
-            <button onClick={handleUpdatedDone}>Update Changes</button>
-            </div>)}
+      <ReactQuill
+        theme='snow'
+        value={text}
+        onChange={setText}
+        style={{minHeight: '300px'}}
+        readOnly = {toggle}
+      />
+            {toggle ?<button onClick={toggleInput}>Edit</button>:<button onClick={handleUpdatedDone}>Update Changes</button>}
     </div>
   )
 }
