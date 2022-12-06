@@ -1,5 +1,4 @@
 import styles from "../styles/authorizedview.module.css";
-import { Link } from 'react-router-dom'; 
 import DisplayTracks from '../components/LandingPage/displaytracks.component'
 import Navbar from './navbar.component'
 

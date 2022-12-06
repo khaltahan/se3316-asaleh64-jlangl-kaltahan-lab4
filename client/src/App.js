@@ -4,6 +4,7 @@ import Login from './components/login.component';
 import Signup from './components/signup.component';
 import ChangePassword from './components/passwordchange.component';
 import LandingPage from './components/LandingPage/landingpage.component';
+import PrivacyPage from './components/PrivacyPage/privacypage.components';
 
 function App() {
   const authorized = localStorage.getItem("token");
@@ -22,6 +23,8 @@ function App() {
       {!authorized &&<Route path = '/general' exact element = {<LandingPage/>}/>}
       {!authorized && <Route path = '/' exact element = {<Navigate replace to='/general'/>}/>}
 
+      {/* Public Routes */}
+      <Route path = '/privacy' exact element = {<PrivacyPage/>}/>
       
     </Routes>
   );
