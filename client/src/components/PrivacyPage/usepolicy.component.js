@@ -3,7 +3,7 @@ import styles from './privacy.module.css'
 import ReactQuill from "react-quill"
 import 'react-quill/dist/quill.snow.css'
 
-const UsePolicy = ()=>{
+const UsePolicy = ({admin})=>{
   const name = "MusicArchive.inc";
   const notice = `
   •	Personnel are responsible for complying with ${name} policies when using ${name}  information resources and/or on ${name} time. If requirements or responsibilities are unclear, please seek assistance from the Information Security Committee.
@@ -48,9 +48,9 @@ const UsePolicy = ()=>{
         onChange={setText}
         style={{minHeight: '300px'}}
         readOnly = {toggle}
-      />    <div className = {styles.edit_btn}>
-            {toggle ?<button onClick={toggleInput}>Edit</button>:<button onClick={handleUpdatedDone}>Update Changes</button>}
-            </div>
+      />    {admin && <div>
+        {toggle ? <button onClick={toggleInput}>Edit</button> : <button onClick={handleUpdatedDone}>Update Changes</button>}
+        </div>}
     </div>
   )
 }

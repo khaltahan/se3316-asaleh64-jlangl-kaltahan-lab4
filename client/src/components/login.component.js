@@ -27,12 +27,12 @@ const Login = () => {
 			// redirect user to landing page 
 			window.location = "/";
 		} catch (error) {
-			if (
-				error.response &&
-				error.response.status >= 400 &&
-				error.response.status <= 500
-			) {
-				setError(error.response.data.message);
+			if (error.response.status === 500) {
+				setError("Invalid Email and/or password");
+			}
+			else if(error.response.status === 403){
+				setError(error.response.data.message)
+				
 			}
 		}
 	};

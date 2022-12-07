@@ -69,7 +69,6 @@ const Tracks = () =>{
             </div>
 
             <div className = {styles.tracks}> 
-            {/* Values are currently hard coded, need to be passed down as prop */}
                 {tracks.map(track =>(
                     <DisplaySearch
                     key = {track._id}

@@ -12,9 +12,9 @@ h1{
     display: grid;
     grid-template-areas: 
     "main main main main"
-    "tracks tracks lists lists"
-    "tracks tracks lists lists"
-    "tracks tracks lists lists";
+    "tracks tracks tracks lists"
+    "tracks tracks tracks lists"
+    "tracks tracks tracks lists";
     grid-gap: 0.25rem;
 }
 
@@ -28,7 +28,7 @@ h1{
     max-height: 80vh;
     overflow:scroll;
     margin:3vh 1vh 1vh 1vh ;
-    width:50vw;
+    width:70vw;
     grid-area:tracks;
 }
 .track_list{
@@ -37,12 +37,11 @@ h1{
     padding: 10px;
     background-color: rgb(230, 230, 226);
     text-align: center;
-    height:max-content;
     max-height: 80vh;
     overflow:scroll;
     margin:3vh 1vh 1vh 1vh ;
-    width:30vw;
-    grid-area: lists;
+    width:10vw;
+    grid-area: main;
 }
 
 ul{
