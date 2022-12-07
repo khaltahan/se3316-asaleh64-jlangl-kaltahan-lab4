@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import styles from "./search.module.css"
-import {Link} from 'react-router-dom'
+
 
 const Search= ({track_title, artist_name,track_id,album_title,album_id,artist_id,track_duration}) =>{
     const [open,setOpen] = useState(false)

@@ -51,8 +51,8 @@ const PublicLists = () =>{
     }
 
     return(
-        <div class = {styles.track_list}>
-            <div> 
+        <div className = {styles.track_list}>
+             
                 {lists.map(list => {
                     return (
                         <div>
@@ -66,6 +66,7 @@ const PublicLists = () =>{
                         </div>
                     )
                 })}
+<<<<<<< HEAD
             </div>
                 {/* Detailed View Of List */}
                 {show == true &&
@@ -97,6 +98,10 @@ const PublicLists = () =>{
                         </Modal>
                     </>
                 }
+=======
+            
+                
+>>>>>>> main
         </div>
     )
 

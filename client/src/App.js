@@ -4,6 +4,8 @@ import Login from './components/login.component';
 import Signup from './components/signup.component';
 import ChangePassword from './components/passwordchange.component';
 import LandingPage from './components/LandingPage/landingpage.component';
+import PrivacyPage from './components/PrivacyPage/privacypage.components';
+import AdminSettings from './components/AdminView/settings.component'
 
 // bootstrap import 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -18,6 +20,7 @@ function App() {
       {authorized && <Route path = '/' exact element = {<Overview/>}/>}
       {authorized && <Route path = '/account/change-password' exact element = { <ChangePassword user = {user}/>} /> }
       {authorized && <Route path = '*' exact element = {<Navigate replace to='/'/>}/>}
+      {authorized && <Route path = '/admin/settings' exact element = {<AdminSettings/>}/>}
 
       {/* Unauthorized Routes */}
       {!authorized && <Route path = '/signup' exact element = {<Signup/>}/>}
@@ -25,6 +28,8 @@ function App() {
       {!authorized &&<Route path = '/general' exact element = {<LandingPage/>}/>}
       {!authorized && <Route path = '/' exact element = {<Navigate replace to='/general'/>}/>}
 
+      {/* Public Routes */}
+      <Route path = '/privacy' exact element = {<PrivacyPage/>}/>
       
     </Routes>
   );

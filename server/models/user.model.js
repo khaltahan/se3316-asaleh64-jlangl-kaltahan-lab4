@@ -26,14 +26,18 @@ const userSchema = new mongoose.Schema({
     is_active:{
         type:Boolean,
         default:true
+<<<<<<< HEAD
     }
+=======
+    },
+>>>>>>> main
 
 })
 
 userSchema.methods.generateAuthToken = function(){
     try{
         const token = jwt.sign(
-            {_id:this._id, email:this.email},
+            {_id:this._id, email:this.email, admin:this.is_admin,active:this.is_active},
             process.env.JWT,
             {expiresIn:"7d"})
         return token;

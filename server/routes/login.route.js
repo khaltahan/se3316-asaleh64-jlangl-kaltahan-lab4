@@ -16,6 +16,12 @@ router.post('/', async (req, res) => {
             })
         }
 
+        if(user.is_active == false){
+            return res.status(403).send({
+                message:"Account is deactivated, please contact admin@email.com for assistance"
+            })
+        }
+
         if(!user){
             return res.status(401).send({
                 message:"Invalid Email or Password"
