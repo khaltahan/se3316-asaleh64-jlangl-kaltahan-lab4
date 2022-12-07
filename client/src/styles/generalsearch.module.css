@@ -28,8 +28,12 @@ h1{
     max-height: 80vh;
     overflow:scroll;
     margin:3vh 1vh 1vh 1vh ;
+<<<<<<< HEAD
+    width:100vw;
+=======
     width:70vw;
     grid-area:tracks;
+>>>>>>> main
 }
 .track_list{
     border-radius:5px;

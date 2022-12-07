@@ -2,6 +2,12 @@ import axios from "axios";
 import { useState } from "react";
 import styles from '../../styles/createlist.module.css'
 
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Alert from 'react-bootstrap/Alert';
+import Card from 'react-bootstrap/Card';
+
+
 const CreatePlayList = ( {user} ) => {
     // state/context variables 
     const [error,setErrors] = useState("");
@@ -36,33 +42,36 @@ const CreatePlayList = ( {user} ) => {
         }
     }
     return(
-        <div>
-            <form className = {styles.form_container} onSubmit = {handleSubmit}>
-                {/* list name input */}
-                <p><label> Playlist Name: </label></p>
-                <input type="text" name = "playlist_name" onChange = {handleInput} value = {playlistData.playlist_name} />
-                {/* optional description text area */}
-                <div>
-                    <p><label for="w3review"> Playlist Description </label></p>
-                    <div>
-                        <textarea name = "description" onChange = {handleInput} value = {playlistData.description}></textarea>
-                    </div>
-                </div>
-                {/* visibility radio button */}
-                <div>
+        <Card>
+            <Card.Body>
+                <Form onSubmit={handleSubmit}>
+                    <Form.Label>Playlist Name</Form.Label>
+                    <br></br>
+                    <Form.Control
+                    name="playlist_name"
+                    onChange={handleInput}
+                    />
+                    <Form.Label>Playlist Description</Form.Label>
+                    <br></br>
+                    <Form.Control
+                    name="description"
+                    onChange={handleInput}
+                    />
+                    <Form.Label>Playlist Visibility</Form.Label>
+                    <br></br>
                     <input id = "public" type = "radio" onChange = {handleInput} name = "visibility" value = "true"/>
-                    <label for="public"> Public </label><br></br>
+                    <label> Public </label>
                     <input id = "private" type = "radio" onChange = {handleInput} name = "visibility" value = "false"/>
-                    <label for="public"> Private </label><br></br>
-                </div>
-                <button type="submit" onSubmit={handleSubmit}> Create </button>
-            </form>
-            {error && 
-                <div> 
-                    <p>{error}</p> 
-                </div>
-            } 
-        </div>
+                    <label> Private </label>
+                </Form>
+                <Button style = {{float:"right"}} onClick={handleSubmit}> Create </Button>
+                {error && 
+                    <div> 
+                        <Alert variant="danger">{error}</Alert> 
+                    </div>
+                } 
+            </Card.Body>
+        </Card>
     )
 }
 

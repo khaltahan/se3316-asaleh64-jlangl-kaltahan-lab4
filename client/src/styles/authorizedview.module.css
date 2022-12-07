@@ -28,3 +28,8 @@
 	cursor: pointer;
 	margin-right: 20px;
 }
+
+.playlistContainer{
+	display:flex;
+	justify-content: center;
+}

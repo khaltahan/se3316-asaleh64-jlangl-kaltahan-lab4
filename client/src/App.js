@@ -7,6 +7,9 @@ import LandingPage from './components/LandingPage/landingpage.component';
 import PrivacyPage from './components/PrivacyPage/privacypage.components';
 import AdminSettings from './components/AdminView/settings.component'
 
+// bootstrap import 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 function App() {
   const authorized = localStorage.getItem("token");
   // store user Id for permission handling 

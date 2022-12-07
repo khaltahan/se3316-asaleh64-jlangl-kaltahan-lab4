@@ -4,6 +4,8 @@ const Track =  require('../models/track.model.js');
 const {User} = require('../models/user.model');
 const Review = require('../models/review.model');
 
+const mongoose = require('mongoose');
+
 // create playlist 
 router.post('/create', async (req,res) => {
     // body data
@@ -147,7 +149,7 @@ router.get('/all-lists', async (req,res) => {
             var tracks = allLists[i].tracks;
 
             // check if tracks of the current playlist exist 
-            if (tracks.length > 1){
+            if (tracks.length > 0){
                 // get total amount of seconds from each track 
                 for (let j =0; j < tracks.length ; j ++){
                     // current track in iteration
@@ -198,34 +200,74 @@ router.get('/all-lists', async (req,res) => {
 router.get('/view', async (req,res) => {
     // get user and list they are trying to view 
     const user = req.query.user;
-    const list = req.query.list;
-
-    var listTracks = [];
-    // query the list 
-    const listToView = await Playlist.findOne({
-        created_by: user,
-        _id: list
-    }) 
-    // if playlist has tracks map the ids to numbers for reference, else return tracks as empty 
-    if (listToView.tracks){
-        const tracks = listToView.tracks.map(Number)
-
-        // for every track store it for return 
-        for (let i=0; i < tracks.length; i++){
-            const track = await Track.findOne({
-                trackId: tracks[i]
+    var list = req.query.list;
+    
+    if (mongoose.Types.ObjectId.isValid(list)){
+        var listTracks = [];
+        // query the list 
+        try{
+            const listToView = await Playlist.findOne({
+                created_by: user,
+                _id: list
             })
-            listTracks.push(track)
-        }
+            // if playlist has tracks map the ids to numbers for reference, else return tracks as empty 
+            if (listToView.tracks){
+                const tracks = listToView.tracks.map(Number)
 
-        // on success return the playlist and the tracks that belong in it 
+                // for every track store it for return 
+                for (let i=0; i < tracks.length; i++){
+                    const track = await Track.findOne({
+                        track_id: tracks[i]
+                    })
+                    listTracks.push(track)
+                }
+                // on success return the playlist and the tracks that belong in it 
+                return res.status(200).send({
+                    playlist:listToView,
+                    tracks:listTracks
+                })
+            }
+            else{
+                listTracks = []
+            }
+        } 
+        catch(err){
+            console.log(err)
+        }
+    }
+})
+
+router.delete('/delete-track/:track/:list/:user', async (req,res) => {
+    const trackToDelete = req.params.track
+    const list = req.params.list 
+    const user = req.params.user
+ 
+    // get the list to update 
+    const listToUpdate = await Playlist.findOne({
+        _id:list,
+        created_by:user
+    })
+
+    // check if list is valid or a user is trying to make a request they cant 
+    if (listToUpdate){
+        var tracks = listToUpdate.tracks
+
+        // remove the track wanted to be deleted
+        const index = tracks.indexOf(trackToDelete)
+        tracks.splice(index,1)
+    
+        // set updated list with track removed 
+        listToUpdate.tracks = tracks
+        await listToUpdate.save()
+    
         return res.status(200).send({
-            playlist:listToView,
-            tracks:listTracks
+            message:"Removed Track"
         })
     }
     else{
-        listTracks = []
+        return res.status(400).send({
+            message:"Invalid Request"
+        })
     }
 })
 
@@ -240,18 +282,26 @@ router.put('/edit', async (req, res) => {
     const newDescription = req.body.description;
     const newVisibility = req.body.visibility; 
     var newTracks = req.body.tracks;
+
+    //console.log(listName,user,newName,newDescription,newVisibility)
+
+    // convert tracks to array , and make sure the tracks are all numbers 
+    newTracks = newTracks.split(',')
+
     // get date of change 
     const dateChanged = new Date().toISOString().split('T')[0]
 
-    // sanitize track input to get rid of any track ids  that do not exist 
+    // sanitize track input to get rid of any track ids that do not exist 
     for (let i=0; i < newTracks.length; i++){
+        // find track by the id provided by user 
         const track = await Track.findOne(
             {track_id:newTracks[i]}
         );
-        // check if the id is vlaid 
-        if (!track){
+        // if track does not exist remove it from ids to add 
+        if (track === null){
             // remove invalid tracks from list
-            newTracks.splice(i, 1)
+            newTracks.splice(i,1)
+            i--;
         }
     }
 
@@ -285,10 +335,10 @@ router.put('/edit', async (req, res) => {
             list.tracks = (newTracks.length > 0) && newTracks || list.tracks
             await list.save();
 
-            const change = await Playlist.findOne({
-                created_by: user,
+            return res.status(200).send({
+                message:"Playlist Changed",
+                data:list
             })
-            return res.status(200).send(list)
         }
         else{
             return res.status(400).send({
@@ -416,7 +466,6 @@ router.get('/public-playlists', async (req,res) => {
         is_public: true
     })
     
-    var averageReview = 0;
     // return data for 10 of the playlists 
     // get lists from up to 10 users out of the hash map 
     for (let i = 0 ; i < 10; i ++){
