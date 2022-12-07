@@ -3,6 +3,7 @@
 import React from 'react';
 import Users from './users.component'
 import Navbar from '../navbar.component'
+import Reviews from './reviews.component'
 
 const Settings = ()=>{
 
@@ -10,8 +11,8 @@ const Settings = ()=>{
         <>
         <Navbar/>
         <Users/>
+        <Reviews/>
         </>
-        
     )
     
 
