@@ -22,7 +22,7 @@ h1{
     max-height: 80vh;
     overflow:scroll;
     margin:3vh 1vh 1vh 1vh ;
-    width:60%;
+    width:100vw;
 }
 .track_list{
     border-radius:5px;

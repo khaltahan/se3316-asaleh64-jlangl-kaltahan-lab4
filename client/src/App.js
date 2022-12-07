@@ -5,6 +5,9 @@ import Signup from './components/signup.component';
 import ChangePassword from './components/passwordchange.component';
 import LandingPage from './components/LandingPage/landingpage.component';
 
+// bootstrap import 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 function App() {
   const authorized = localStorage.getItem("token");
   // store user Id for permission handling 
