@@ -17,8 +17,8 @@ const PublicLists = () =>{
     fetchLists();
 
     return(
-        <div class = {styles.track_list}>
-            <div> 
+        <div className = {styles.track_list}>
+             
                 {lists.map(list => {
                     return (
                         <div>
@@ -32,9 +32,8 @@ const PublicLists = () =>{
                         </div>
                     )
                 })}
-            </div>
-                <table id = "lists" class = {styles.display_list}>
-                </table>
+            
+                
         </div>
     )
 

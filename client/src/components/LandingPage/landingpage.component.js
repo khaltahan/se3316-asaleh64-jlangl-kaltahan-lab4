@@ -8,10 +8,8 @@ const LandingPage = () =>{
 return(
     <div>
         <Navbar/>
-        <div>
-          <Tracks/>
+          <DisplayTracks/>
           <PublicLists/>
-        </div>
     </div>
 )
 }

@@ -33,6 +33,9 @@ app.use('/api/playlist', playlistRoute)
 const trackRoute = require('./routes/track.route')
 app.use('/api/tracks',trackRoute)
 
+const adminRoute = require('./routes/admin.route')
+app.use('/api/admin',adminRoute)
+
 
 const PORT = process.env.PORT;
 app.listen(PORT,() => console.log(`Listening on port ${PORT}`))

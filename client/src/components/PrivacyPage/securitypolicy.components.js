@@ -3,7 +3,7 @@ import styles from './privacy.module.css'
 import ReactQuill from "react-quill"
 import 'react-quill/dist/quill.snow.css'
 
-const SecurityPage = ()=>{
+const SecurityPage = ({admin})=>{
   //const name = "MusicArchive.inc";
   const notice = "Sample"
 
@@ -26,8 +26,9 @@ const SecurityPage = ()=>{
         onChange={setText}
         style={{minHeight: '300px'}}
         readOnly = {toggle}
-      />
-            {toggle ?<button onClick={toggleInput}>Edit</button>:<button onClick={handleUpdatedDone}>Update Changes</button>}
+      />{admin && <div>
+        {toggle ? <button onClick={toggleInput}>Edit</button> : <button onClick={handleUpdatedDone}>Update Changes</button>}
+        </div>}
     </div>
   )
 }

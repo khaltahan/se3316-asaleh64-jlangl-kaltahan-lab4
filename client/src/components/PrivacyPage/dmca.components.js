@@ -3,7 +3,7 @@ import styles from './privacy.module.css'
 import ReactQuill from "react-quill"
 import 'react-quill/dist/quill.snow.css'
 
-const DMCAPage = ()=>{
+const DMCAPage = ({admin})=>{  
   const name = "MusicArchive.inc"
       const notice = `${name} respects the intellectual property rights of others. \n Per the DMCA, ${name} will respond expeditiously to claims of copyright infringement on the Site if submitted to ${name}'s Copyright Agent as described below. \n Upon receipt of a notice alleging copyright infringement, ${name} will take whatever action it deems appropriate within its sole discretion, including removal of the allegedly infringing materials and termination of access for repeat infringers of copyright protected content.
 
@@ -22,7 +22,6 @@ const DMCAPage = ()=>{
         const [text, setText] = useState(notice);
 
   function toggleInput() {
-
     //Add admin authentication here, this way it will only allow the admin to edit the notice, or add conditional statement to button below
     setToggle(false);
   }
@@ -41,8 +40,9 @@ const DMCAPage = ()=>{
         onChange={setText}
         style={{minHeight: '300px'}}
         readOnly = {toggle}
-      />
-            {toggle ?<button onClick={toggleInput}>Edit</button>:<button onClick={handleUpdatedDone}>Update Changes</button>}
+      />    {admin && <div>
+            {toggle ? <button onClick={toggleInput}>Edit</button> : <button onClick={handleUpdatedDone}>Update Changes</button>}
+            </div>}
     </div>
   )
 }

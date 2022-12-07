@@ -1,4 +1,5 @@
 import {React} from 'react';
+import jwt_decode from 'jwt-decode';
 
 //components
 import SecurityPolicy from './securitypolicy.components'
@@ -9,14 +10,26 @@ import Navbar from '../navbar.component'
 
 
 const PrivacyPage = ()=>{
+const user = localStorage.getItem("token");
+let admin;
+if(user){
+  const decoded= jwt_decode(user);
+  admin = decoded.admin;
+  console.log(admin)
+}
+
   return (
     <div>
         <Navbar/>
-        <SecurityPolicy/>
+        <DMCAPage admin = {admin}/>
         <hr/>
-        <UsePolicy/>
+        <UsePolicy admin = {admin}/>
         <hr/>
-        <DMCAPage/>
+        <SecurityPolicy admin = {admin}/>
+        
+        
+        
+        
     </div>
   )
 }
