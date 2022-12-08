@@ -543,7 +543,7 @@ router.get('/public-playlists', async (req,res) => {
                 b.last_change = new Date (b.last_change);
                 
                 // sort by most recent modified 
-                return b.last_change - a.last_change;
+                return a.last_change - b.last_change;
             })
             
         }

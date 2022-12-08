@@ -53,10 +53,11 @@ const AllLists = ( {user} ) => {
         event.preventDefault();
     }
 
-    const allowEdit = async () => {
+    const allowEdit = async (event) => {
         // allow edit
         setEdit(true);
         // set edit button visibilty to false 
+        event.target.style.display = 'none';
 
     }
 
@@ -122,6 +123,12 @@ const AllLists = ( {user} ) => {
         }
     }
 
+    const [showMore, setShowMore] = useState(false);
+
+    const expandView = async () => {
+        setShowMore(!showMore)
+    }
+
     // display user's list with necessary info 
     return (
         <div class = {styles.track_list}>
@@ -147,7 +154,7 @@ const AllLists = ( {user} ) => {
                     <>
                         <Modal show={show} onHide={handleClose}>
                             <Modal.Header>
-                            <Modal.Title>{listDetails.playlist_name}</Modal.Title><Button onClick={ () => {setConfirm(true)}} variant="danger" style={{float:"right"}}> Delete List </Button><Button onstyle = {{float:"right"}} onClick = {allowEdit}> Edit </Button>
+                            <Modal.Title>{listDetails.playlist_name}</Modal.Title><Button onstyle = {{float:"right"}} onClick = {allowEdit}> Edit </Button>
                             {showConfirm == true && 
                             <>
                                 <Modal show={showConfirm}>
@@ -170,15 +177,25 @@ const AllLists = ( {user} ) => {
                                         {listTracks.map( track => {
                                             return(
                                                 <>
-                                                <Alert variant="success">
+                                                <Alert key={track.track_id}variant="success">
                                                 {track.track_title} 
                                                 <p>By: {track.artist_name} <Button onClick = {removeTrack} value = {track.track_id} variant="danger" style={{float:"right"}}>Delete</Button></p>
-                                                <p>Album: {track.album_title}</p>
+                                                <Button variant="outline-info" onClick={expandView}> Show More </Button>
+                                                <Button variant="outline-danger" href = {`https://www.youtube.com/results?search_query=${track.artist_name}+${track.track_title}`} target="_blank" rel="noopener noreferrer"> Youtube </Button>
+                                                {showMore == true && 
+                                                    <p>
+                                                        <br></br>
+                                                        <p>Track:{track.track_id} </p>
+                                                        <p>AlbumID: {track.album_id} By: {track.album_title},</p>
+                                                        <p>Duration: {track.track_duration}</p>
+                                                    </p>
+                                                }
                                                 </Alert>
                                                 </>
                                             )
                                         })}
                                         <Modal.Footer>
+                                        <Button onClick={ () => {setConfirm(true)}} variant="outline-warning"style={{float:"right"}}> Delete List </Button>
                                         <Button variant="secondary" onClick={handleClose}>
                                             Close
                                         </Button>
