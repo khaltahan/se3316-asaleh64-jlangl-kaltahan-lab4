@@ -21,6 +21,8 @@ const Navbar = () => {
                     Home Page
                 </h1>
                 <Link to = "/"><button className = {styles.white_btn}>Home</button></Link>
+                <Link to = "/about"><button className = {styles.white_btn}>About</button></Link>
+
                 <Link to = "/privacy"><button className = {styles.white_btn}>Privacy & Security</button></Link>
                 {/* Unauthorized */}
                 {!user && <Link to ='/login'><button className = {styles.white_btn}>Login</button></Link>} 
