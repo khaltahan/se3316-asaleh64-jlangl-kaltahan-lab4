@@ -6,14 +6,15 @@
     box-shadow: 20px rgba(0, 0, 0, 0);
     border-radius: 6px;
     width:95%;
-    margin: 1vh;
+    height:10vh;
+    margin: 3vh;
 
 }
 
 .search_button{
     border: 1px rgba(240, 7, 7, 0);
     width:8vw;
-    height:3vh;
+    height:6vh;
     border-radius: 5px;
     margin:1vh;
 }
@@ -34,10 +35,10 @@
     border:transparent rgb(240, 208, 208);
     padding: 10px;
     background-color: rgb(230, 230, 226);
-    text-align: center;
+    align-items: center;
     height:max-content;
     max-height: 80vh;
     overflow:scroll;
     margin:3vh 1vh 1vh 1vh ;
-    width:max-width;
+    width:90vw;
 }

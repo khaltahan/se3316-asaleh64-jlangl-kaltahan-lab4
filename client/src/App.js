@@ -6,6 +6,7 @@ import ChangePassword from './components/passwordchange.component';
 import LandingPage from './components/LandingPage/landingpage.component';
 import PrivacyPage from './components/PrivacyPage/privacypage.components';
 import AdminSettings from './components/AdminView/settings.component'
+import About from './components/about.component'
 
 // bootstrap import 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -30,6 +31,8 @@ function App() {
 
       {/* Public Routes */}
       <Route path = '/privacy' exact element = {<PrivacyPage/>}/>
+      <Route path = '/about' exact element = {<About/>}/>
+
       
     </Routes>
   );

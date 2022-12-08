@@ -26,6 +26,8 @@ if(user){
         <UsePolicy admin = {admin}/>
         <hr/>
         <SecurityPolicy admin = {admin}/>
+
+        <h1>Please contact admin@email.com for any inquiries regarding security policy or DMCA takedowns</h1>
         
         
         

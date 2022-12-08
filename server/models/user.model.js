@@ -27,7 +27,6 @@ const userSchema = new mongoose.Schema({
         type:Boolean,
         default:true
     }
-
 })
 
 userSchema.methods.generateAuthToken = function(){
