@@ -5,6 +5,7 @@ const Track =  require('../models/track.model.js');
 
 router.get('/all',async (req, res)=>{
     try{
+	console.log("Getting request");
         const tracks =  await Track.find()
         res.json(tracks);
     }

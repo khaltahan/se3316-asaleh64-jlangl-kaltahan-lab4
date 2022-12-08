@@ -26,7 +26,7 @@ const ChangePassword = ({ user }) => {
         console.log(userData)
         e.preventDefault();
         try{
-            let url = `http://localhost:${process.env.REACT_APP_API_PORT}/account/change-password`
+            let url = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}/account/change-password`
             const {response} = await axios.post(url, userData)
             // remove token and user session 
             localStorage.removeItem("token");

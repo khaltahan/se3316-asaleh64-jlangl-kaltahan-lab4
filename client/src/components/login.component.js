@@ -18,7 +18,7 @@ const Login = () => {
 		e.preventDefault();
 		// fetch the API request 
 		try {
-			const url = `http://localhost:${process.env.REACT_APP_API_PORT}/login`;
+			const url = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}/login`;
 			const { data: res } = await axios.post(url, data);
 			// store token for access in payload 
 			localStorage.setItem("token", res.data.token);

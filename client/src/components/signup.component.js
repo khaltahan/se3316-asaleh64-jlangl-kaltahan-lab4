@@ -19,7 +19,7 @@ const Signup = ()=>{
 const handleSubmit = async (e) =>{
     e.preventDefault()
     try {
-        const url = `http://localhost:${process.env.REACT_APP_API_PORT}/register`
+        const url = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}/register`
         const {data: res} = await axios.post(url, data);
         navigate('/login')
         console.log(res.message);

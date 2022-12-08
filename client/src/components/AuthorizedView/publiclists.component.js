@@ -16,7 +16,7 @@ const PublicLists = ( {user} ) =>{
 
     const fetchLists = async () => {
         // get request to get lists of current user 
-        let url = `http://localhost:${process.env.REACT_APP_API_PORT}/api/playlist/public-playlists`
+        let url = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}/api/playlist/public-playlists`
         var res = await axios.get(url);
         // array of list objects for current user 
         setLists(res.data.lists)      
@@ -48,7 +48,7 @@ const PublicLists = ( {user} ) =>{
         reviewDetails.list = listDetails._id
 
         // API request 
-        let url = `http://localhost:${process.env.REACT_APP_API_PORT}/api/playlist/add-review`
+        let url = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}/api/playlist/add-review`
 
         // get post response 
         const res = await axios.post(url, reviewDetails)
@@ -68,7 +68,7 @@ const PublicLists = ( {user} ) =>{
             const list = values[1]
 
             // fetch details for list 
-            let url = `http://localhost:${process.env.REACT_APP_API_PORT}/api/playlist/view?user=${listOwner}&list=${list}`
+            let url = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}/api/playlist/view?user=${listOwner}&list=${list}`
             const response = await axios.get(url);
 
             setShow(true)

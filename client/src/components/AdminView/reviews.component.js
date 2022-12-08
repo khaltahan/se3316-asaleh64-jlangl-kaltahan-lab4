@@ -11,19 +11,19 @@ const Reviews = ()=>{
     },[]) 
 
     const getReviews = async()=>{
-        const res = await fetch(`http://localhost:${process.env.REACT_APP_API_PORT}/api/admin/reviews`);
+        const res = await fetch(`http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}/api/admin/reviews`);
         const data = await res.json();
         setReviews(data);
     }
 
     const hide = async(event)=>{
         const value = event.target.getAttribute('value');
-        await fetch(`http://localhost:${process.env.REACT_APP_API_PORT}/api/admin/hide/${value}`,{method: 'POST'});
+        await fetch(`http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}/api/admin/hide/${value}`,{method: 'POST'});
         window.location.reload();
     }
     const unhide = async(event)=>{
         const value = event.target.getAttribute('value');
-        await fetch(`http://localhost:${process.env.REACT_APP_API_PORT}/api/admin/unhide/${value}`,{method: 'POST'});
+        await fetch(`http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}/api/admin/unhide/${value}`,{method: 'POST'});
         window.location.reload();
     }
 

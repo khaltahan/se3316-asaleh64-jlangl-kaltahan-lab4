@@ -31,7 +31,7 @@ const CreatePlayList = ( {user} ) => {
         event.preventDefault();
         // attempt post request 
         try{
-            let url = `http://localhost:${process.env.REACT_APP_API_PORT}/api/playlist/create`
+            let url = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}/api/playlist/create`
             await axios.post(url, playlistData)
             window.location.reload()
         }   
