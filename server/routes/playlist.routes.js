@@ -76,6 +76,7 @@ router.delete('/delete', async(req,res) => {
         playlist_name: req.body.playlist_name
     })
 
+    console.log(req.body.user)
     // check if user attempting to delete list was the one who created the list 
     if (req.body.user === listToDelete[0].created_by.toString()){
         // allow the deletion 
@@ -542,7 +543,7 @@ router.get('/public-playlists', async (req,res) => {
                 b.last_change = new Date (b.last_change);
                 
                 // sort by most recent modified 
-                return b.last_change - a.last_change;
+                return a.last_change - b.last_change;
             })
             
         }
