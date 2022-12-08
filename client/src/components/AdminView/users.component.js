@@ -12,25 +12,25 @@ const Users = ()=>{
     },[]) 
 
     const getUsers = async()=>{
-        const res = await fetch(`http://localhost:${process.env.REACT_APP_API_PORT}/api/admin/users`);
+        const res = await fetch(`http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}/api/admin/users`);
         const data = await res.json();
         setUsers(data);
     }
 
     const activate = async(event)=>{
         const value = event.target.getAttribute('value');
-        await fetch(`http://localhost:${process.env.REACT_APP_API_PORT}/api/admin/activate/${value}`,{method: 'POST'});
+        await fetch(`http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}/api/admin/activate/${value}`,{method: 'POST'});
         window.location.reload();
     }
     const deactivate = async(event)=>{
         const value = event.target.getAttribute('value');
-        await fetch(`http://localhost:${process.env.REACT_APP_API_PORT}/api/admin/deactivate/${value}`,{method: 'POST'});
+        await fetch(`http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}/api/admin/deactivate/${value}`,{method: 'POST'});
         window.location.reload();
     }
 
     const admin = async(event)=>{
         const value = event.target.getAttribute('value');
-        await fetch(`http://localhost:${process.env.REACT_APP_API_PORT}/api/admin/make-admin/${value}`,{method: 'POST'});
+        await fetch(`http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}/api/admin/make-admin/${value}`,{method: 'POST'});
         window.location.reload()
     }
     

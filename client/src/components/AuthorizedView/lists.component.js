@@ -27,7 +27,7 @@ const AllLists = ( {user} ) => {
 
     const fetchLists = async () => {
         // get request to get lists of current user 
-        let url = `http://localhost:${process.env.REACT_APP_API_PORT}/api/playlist/all-lists?user=${user}`
+        let url = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}/api/playlist/all-lists?user=${user}`
         var res = await axios.get(url);
         // array of list objects for current user 
         setLists(res.data.lists)    
@@ -39,7 +39,7 @@ const AllLists = ( {user} ) => {
         setList(event.target.getAttribute("value"))
         console.log("attempting to get details")
         // get list details 
-        let url = `http://localhost:${process.env.REACT_APP_API_PORT}/api/playlist/view?user=${user}&list=${listToView}`
+        let url = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}/api/playlist/view?user=${user}&list=${listToView}`
         var res = await axios.get(url);
 
         // check if response has data and set states 
@@ -72,7 +72,7 @@ const AllLists = ( {user} ) => {
 
     const removeTrack = async (event) => {
         const trackToRemove = event.target.value
-        let url = `http://localhost:${process.env.REACT_APP_API_PORT}/api/playlist/delete-track/${trackToRemove}/${listDetails._id}/${user}`
+        let url = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}/api/playlist/delete-track/${trackToRemove}/${listDetails._id}/${user}`
         const res = await axios.delete(url)
         setShow(false)
     }
@@ -81,7 +81,7 @@ const AllLists = ( {user} ) => {
     const editPlaylist = async () => {
         // make request to edit playlist and save to database 
         editDetails.list = listDetails.playlist_name
-        let url = `http://localhost:${process.env.REACT_APP_API_PORT}/api/playlist/edit`;
+        let url = `http://${process.env.REACT_APP_HOST}:${process.env.REACT_APP_API_PORT}/api/playlist/edit`;
         // get post response to check success 
         const res = await axios.put(url, editDetails);
         console.log(res.status);
