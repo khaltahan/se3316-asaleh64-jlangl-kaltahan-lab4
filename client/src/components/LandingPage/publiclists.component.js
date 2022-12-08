@@ -66,8 +66,7 @@ const PublicLists = () =>{
                         </div>
                     )
                 })}
-<<<<<<< HEAD
-            </div>
+            
                 {/* Detailed View Of List */}
                 {show == true &&
                     <>
@@ -98,10 +97,6 @@ const PublicLists = () =>{
                         </Modal>
                     </>
                 }
-=======
-            
-                
->>>>>>> main
         </div>
     )
 
