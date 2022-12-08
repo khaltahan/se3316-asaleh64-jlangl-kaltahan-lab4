@@ -82,6 +82,12 @@ const PublicLists = ( {user} ) =>{
 		setReviewDetails({ ...reviewDetails, [input.name]: input.value });
 	};
 
+    const [showMore, setShowMore] = useState(false);
+
+    const expandView = async () => {
+        setShowMore(!showMore)
+    }
+    
     return(
         <div class = {styles.track_list}>
             <div> 
@@ -122,12 +128,21 @@ const PublicLists = ( {user} ) =>{
                                         {listTracks.map( track => {
                                             return (
                                                 <>
-                                                    <Alert variant="success">
-                                                        {track.track_title} 
-                                                        <p>By: {track.artist_name}</p>
-                                                        <p>Album: {track.album_title}</p>
-                                                    </Alert>
-                                                </>
+                                                <Alert key={track.track_id}variant="success">
+                                                {track.track_title} 
+                                                <p>By: {track.artist_name}</p>
+                                                <Button variant="outline-info" onClick={expandView}> Show More </Button>
+                                                <Button variant="outline-danger" href = {`https://www.youtube.com/results?search_query=${track.artist_name}+${track.track_title}`} target="_blank" rel="noopener noreferrer"> Youtube </Button>
+                                                {showMore == true && 
+                                                    <p>
+                                                        <br></br>
+                                                        <p>Track:{track.track_id} </p>
+                                                        <p>AlbumID: {track.album_id} By: {track.album_title},</p>
+                                                        <p>Duration: {track.track_duration}</p>
+                                                    </p>
+                                                }
+                                                </Alert>
+                                            </>
                                             )
                                         })}
                                     </div>

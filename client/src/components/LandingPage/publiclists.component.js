@@ -13,8 +13,6 @@ const PublicLists = () =>{
     // state for public playlists 
     const [lists, setLists] = useState([])
 
-    const [listToView, setList] = useState([]);
-
     const handleClose = () => {
         setShow(false)
     }
@@ -32,6 +30,12 @@ const PublicLists = () =>{
     const [listDetails, setDetails] = useState()
     const [listTracks, setTracks] = useState([])
     const [show, setShow] = useState(false)
+
+    const [showMore, setShowMore] = useState(false);
+
+    const expandView = async () => {
+        setShowMore(!showMore)
+    }
     
     const getDetails = async (event) => {
         if (event.target.getAttribute("value") !== null){
@@ -84,10 +88,19 @@ const PublicLists = () =>{
                                 {listTracks.map( track => {
                                     return (
                                         <>
-                                            <Alert variant="success">
-                                                {track.track_title} 
-                                                <p>By: {track.artist_name}</p>
-                                                <p>Album: {track.album_title}</p>
+                                            <Alert key={track.track_id}variant="success">
+                                            {track.track_title} 
+                                            <p>By: {track.artist_name}</p>
+                                            <Button variant="outline-info" onClick={expandView}> Show More </Button>
+                                            <Button variant="outline-danger" href = {`https://www.youtube.com/results?search_query=${track.artist_name}+${track.track_title}`} target="_blank" rel="noopener noreferrer"> Youtube </Button>
+                                            {showMore == true && 
+                                                <p>
+                                                    <br></br>
+                                                    <p>Track:{track.track_id} </p>
+                                                    <p>AlbumID: {track.album_id} By: {track.album_title},</p>
+                                                    <p>Duration: {track.track_duration}</p>
+                                                </p>
+                                            }
                                             </Alert>
                                         </>
                                     )
