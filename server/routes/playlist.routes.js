@@ -76,6 +76,7 @@ router.delete('/delete', async(req,res) => {
         playlist_name: req.body.playlist_name
     })
 
+    console.log(req.body.user)
     // check if user attempting to delete list was the one who created the list 
     if (req.body.user === listToDelete[0].created_by.toString()){
         // allow the deletion 

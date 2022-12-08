@@ -45,24 +45,26 @@ const CreatePlayList = ( {user} ) => {
         <Card>
             <Card.Body>
                 <Form onSubmit={handleSubmit}>
-                    <Form.Label>Playlist Name</Form.Label>
-                    <br></br>
-                    <Form.Control
-                    name="playlist_name"
-                    onChange={handleInput}
-                    />
-                    <Form.Label>Playlist Description</Form.Label>
-                    <br></br>
-                    <Form.Control
-                    name="description"
-                    onChange={handleInput}
-                    />
-                    <Form.Label>Playlist Visibility</Form.Label>
-                    <br></br>
-                    <input id = "public" type = "radio" onChange = {handleInput} name = "visibility" value = "true"/>
-                    <label> Public </label>
-                    <input id = "private" type = "radio" onChange = {handleInput} name = "visibility" value = "false"/>
-                    <label> Private </label>
+                    <form onSubmit={handleSubmit}>
+                        <Form.Label>Playlist Name</Form.Label>
+                        <br></br>
+                        <Form.Control
+                        name="playlist_name"
+                        onChange={handleInput}
+                        />
+                        <Form.Label>Playlist Description</Form.Label>
+                        <br></br>
+                        <Form.Control
+                        name="description"
+                        onChange={handleInput}
+                        />
+                        <Form.Label>Playlist Visibility</Form.Label>
+                        <br></br>
+                        <input id = "public" type = "radio" onChange = {handleInput} name = "visibility" value = "true"/>
+                        <label> Public </label>
+                        <input id = "private" type = "radio" onChange = {handleInput} name = "visibility" value = "false"/>
+                        <label> Private </label>
+                    </form>
                 </Form>
                 <Button style = {{float:"right"}} onClick={handleSubmit}> Create </Button>
                 {error && 
