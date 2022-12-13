@@ -30,7 +30,7 @@ const Login = () => {
 			if (error.response.status === 500) {
 				setError("Invalid Email and/or password");
 			}
-			else if(error.response.status === 403){
+			else if(error.response.status === 401){
 				setError(error.response.data.message)
 				
 			}
